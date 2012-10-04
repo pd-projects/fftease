@@ -1,0 +1,133 @@
+#N canvas 281 24 660 446 10;
+#X obj 167 237 *~ 1;
+#X obj 167 289 dac~;
+#X floatatom 190 218 5 0 0 0 - centerring-gain -;
+#X msg 333 284 \; pd dsp \$1;
+#X obj 333 267 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 17 207 hsl 128 15 0 4 0 0 centerring-gain empty output_gain
+-2 -6 0 8 -79789 -1 -1 1900 1;
+#N canvas 0 22 511 346 messages 0;
+#X obj 132 268 outlet;
+#X msg 34 232 fftinfo;
+#X msg 132 74 mute \$1;
+#X obj 132 41 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X msg 25 101 overlap \$1;
+#X msg 25 54 2;
+#X msg 55 71 4;
+#X text 208 216 turn on invert;
+#X text 221 177 is turned on;
+#X obj 187 217 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1
+1;
+#X msg 187 239 invert \$1;
+#X text 221 163 pad affects the gain only when "invert";
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 2 0;
+#X connect 4 0 0 0;
+#X connect 5 0 4 0;
+#X connect 6 0 4 0;
+#X connect 9 0 10 0;
+#X connect 10 0 0 0;
+#X restore 448 167 pd messages;
+#X obj 18 241 hsl 128 15 0 256 0 0 eth-composite-index empty composite_index
+-2 -6 0 8 -88868 -1 -1 0 1;
+#N canvas 990 218 500 389 playsound1 0;
+#X obj 31 194 soundfiler;
+#X obj 31 160 openpanel;
+#X msg 31 131 bang;
+#X obj 227 284 outlet~;
+#X msg 227 244 bang;
+#X obj 348 228 spigot;
+#X obj 385 205 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1
+1;
+#X text 63 132 open the sound;
+#X text 133 244 then play it;
+#X text 304 190 loop if you like;
+#X text 316 205 comment;
+#X msg 31 177 read -resize \$1 ether-sound1;
+#X obj 227 268 tabplay~ ether-sound1;
+#N canvas 0 0 450 300 graph1 0;
+#X array ether-sound1 449212 float 2;
+#X coords 0 1 449211 -1 200 140 1;
+#X restore 244 30 graph;
+#X connect 1 0 11 0;
+#X connect 2 0 1 0;
+#X connect 4 0 12 0;
+#X connect 5 0 4 0;
+#X connect 6 0 5 1;
+#X connect 11 0 0 0;
+#X connect 12 0 3 0;
+#X connect 12 1 5 0;
+#X restore 167 97 pd playsound1;
+#N canvas 936 488 508 397 playsound2 0;
+#X obj 31 194 soundfiler;
+#X obj 31 160 openpanel;
+#X msg 31 131 bang;
+#X obj 227 284 outlet~;
+#X msg 227 244 bang;
+#X obj 348 228 spigot;
+#X obj 385 205 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1
+1;
+#X text 63 132 open the sound;
+#X text 133 244 then play it;
+#X text 304 190 loop if you like;
+#X text 316 205 comment;
+#X msg 31 177 read -resize \$1 ether-sound2;
+#N canvas 0 0 450 300 graph2 0;
+#X array ether-sound2 1.764e+06 float 2;
+#X coords 0 1 1.764e+06 -1 200 140 1;
+#X restore 236 17 graph;
+#X obj 227 268 tabplay~ ether-sound2;
+#X connect 1 0 11 0;
+#X connect 2 0 1 0;
+#X connect 4 0 13 0;
+#X connect 5 0 4 0;
+#X connect 6 0 5 1;
+#X connect 11 0 0 0;
+#X connect 13 0 3 0;
+#X connect 13 1 5 0;
+#X restore 198 116 pd playsound2;
+#X floatatom 229 159 5 0 0 0 - eth-composite-index -;
+#X text 286 101 <- load and loop two soundfiles to hear effect;
+#X obj 14 107 loadbang;
+#X text 31 316;
+#X text 23 318 ether~ selects portions of two input signals and creates
+a composite output spectrum based upon the amplitude of the inputs.
+The loudest band of the two inputs will be selected. Sending the inverse
+message will reverse this behavior selecting the weakest. The composite
+index is a scalar for the selection of the second input. Useful values
+will vary according to the amplitude characteristics of the input signals.
+Try values greater than 0 and less than 100 But higher values may be
+effective depending upon the input signals.;
+#N canvas 376 316 474 324 ether-block 0;
+#X obj 233 219 block~ 256;
+#X obj 163 185 outlet~;
+#X obj 163 38 inlet~;
+#X obj 269 107 inlet;
+#X obj 201 81 inlet;
+#X obj 181 60 inlet~;
+#X obj 163 128 ether~;
+#X connect 2 0 6 0;
+#X connect 3 0 6 0;
+#X connect 4 0 6 2;
+#X connect 5 0 6 1;
+#X connect 6 0 1 0;
+#X restore 167 183 pd ether-block;
+#X text 270 159 composite index;
+#X msg 14 123 0.1 1;
+#X obj 14 139 unpack f f;
+#X connect 0 0 1 0;
+#X connect 0 0 1 1;
+#X connect 2 0 0 1;
+#X connect 4 0 3 0;
+#X connect 6 0 15 3;
+#X connect 8 0 15 0;
+#X connect 9 0 15 1;
+#X connect 10 0 15 2;
+#X connect 12 0 17 0;
+#X connect 15 0 0 0;
+#X connect 17 0 18 0;
+#X connect 18 0 5 0;
+#X connect 18 1 7 0;
