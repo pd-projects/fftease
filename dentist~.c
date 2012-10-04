@@ -174,7 +174,7 @@ void dentist_free(t_dentist *x)
 void dentist_overlap(t_dentist *x, t_floatarg f)
 {
 int o = (int)f;
-  if(!power_of_two(o)){
+  if(!fftease_power_of_two(o)){
     error("%d is not a power of two",o);
     return;
   }
@@ -185,7 +185,7 @@ int o = (int)f;
 void dentist_winfac(t_dentist *x, t_floatarg f)
 {
 int w = (int)f;
-  if(!power_of_two(w)){
+  if(!fftease_power_of_two(w)){
     error("%d is not a power of two",w);
     return;
   }
@@ -254,9 +254,9 @@ void *dentist_new(t_symbol *msg, short argc, t_atom *argv)
   x->topfreq = atom_getfloatarg(0,argc,argv);
   x->overlap = atom_getfloatarg(1,argc,argv);
   x->winfac = atom_getfloatarg(2,argc,argv);
-  if(!power_of_two(x->overlap))
+  if(!fftease_power_of_two(x->overlap))
   	x->overlap = 4;
-  if(!power_of_two(x->winfac))
+  if(!fftease_power_of_two(x->winfac))
   	x->winfac = 1;
   
   dentist_init(x,0);

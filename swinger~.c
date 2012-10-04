@@ -61,7 +61,7 @@ void swinger_init(t_swinger *x, short initialized);
 void swinger_dsp_free(t_swinger *x);
 void swinger_overlap(t_swinger *x, t_floatarg o);
 void swinger_winfac(t_swinger *x, t_floatarg o);
-//int power_of_two(int p);
+//int fftease_power_of_two(int p);
 void swinger_fftinfo(t_swinger *x);
 
 #if MSP
@@ -167,7 +167,7 @@ void *swinger_new(t_symbol *s, int argc, t_atom *argv)
 
 void swinger_overlap(t_swinger *x, t_floatarg o)
 {
-	if(!power_of_two(o)){
+	if(!fftease_power_of_two(o)){
 		post("%f is not a power of two",o);
 		return;
 	}
@@ -177,7 +177,7 @@ void swinger_overlap(t_swinger *x, t_floatarg o)
 
 void swinger_winfac(t_swinger *x, t_floatarg f)
 {
-	if(!power_of_two(f)){
+	if(!fftease_power_of_two(f)){
 	    error("%f is not a power of two",f);
 	    return;
 	}

@@ -1,0 +1,124 @@
+#N canvas 230 215 591 546 10;
+#N canvas 0 22 490 340 residency-block 0;
+#X obj 28 42 inlet~;
+#X obj 92 44 inlet~;
+#X obj 156 44 inlet~;
+#X obj 229 46 inlet;
+#X obj 28 140 outlet~;
+#X obj 28 99 residency~ 5000 4 1;
+#X obj 28 169 block~ 256;
+#X text 39 120 args: buffer size \, overlap \, window factor;
+#X text 103 171 FFT size is block~ size times overlap;
+#X obj 232 235 snapshot~;
+#X obj 393 187 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1
+1;
+#X obj 232 264 outlet;
+#X msg 393 142 loadbang;
+#X msg 393 165 1;
+#X obj 394 205 metro 100;
+#X connect 0 0 5 0;
+#X connect 1 0 5 1;
+#X connect 2 0 5 2;
+#X connect 3 0 5 0;
+#X connect 5 0 4 0;
+#X connect 5 1 9 0;
+#X connect 9 0 11 0;
+#X connect 10 0 14 0;
+#X connect 12 0 13 0;
+#X connect 13 0 10 0;
+#X connect 14 0 9 0;
+#X restore 124 220 pd residency-block;
+#N canvas 449 46 676 438 messages 0;
+#X obj 119 302 outlet;
+#X floatatom 289 121 5 0 0 2 resize_memory size -;
+#X msg 289 151 size \$1;
+#X obj 119 70 bng 15 250 50 0 empty trigger trigger_sampling 0 -6 0
+8 -262144 -1 -1;
+#X obj 149 122 s playsound;
+#X obj 119 98 t b b;
+#X msg 119 149 acquire_sample;
+#X text 36 10 Load a valid soundfile in sound-source \, then hit the
+sampling trigger below. The resulting recording is stored as a series
+of FFT frames inside residency~ available for arbitrary time-access.
+;
+#X text 254 134 first turn off DACs to be safe;
+#X obj 274 264 fftease-system;
+#N canvas 0 22 642 503 init 0;
+#X msg 241 126 verbose 1;
+#X msg 140 126 playthrough 1;
+#X obj 140 99 loadbang;
+#X obj 140 36 loadbang;
+#X msg 140 57 1;
+#X obj 140 79 s speed-slider;
+#X obj 130 194 outlet;
+#X connect 0 0 6 0;
+#X connect 1 0 6 0;
+#X connect 2 0 1 0;
+#X connect 2 0 0 0;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X restore 233 231 pd init;
+#X connect 1 0 2 0;
+#X connect 2 0 0 0;
+#X connect 3 0 5 0;
+#X connect 5 0 6 0;
+#X connect 5 1 4 0;
+#X connect 6 0 0 0;
+#X connect 9 0 0 0;
+#X connect 10 0 0 0;
+#X restore 245 185 pd messages;
+#X floatatom 164 196 5 0 0 0 - speed -;
+#N canvas 0 22 514 364 sound-source 0;
+#X obj 227 222 r playsound;
+#X obj 31 194 soundfiler;
+#X obj 31 160 openpanel;
+#N canvas 0 22 450 300 graph1 0;
+#X array residency-sound1 4e+06 float 2;
+#X coords 0 1 4e+06 -1 200 140 1;
+#X restore 237 13 graph;
+#X msg 31 131 bang;
+#X obj 227 284 outlet~;
+#X msg 227 244 bang;
+#X obj 348 228 spigot;
+#X obj 385 205 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1
+1;
+#X text 133 244 then play it;
+#X text 304 190 loop if you like;
+#X msg 31 177 read -resize \$1 residency-sound1;
+#X obj 227 268 tabplay~ residency-sound1;
+#X text 63 132 open the sound;
+#X connect 0 0 6 0;
+#X connect 2 0 11 0;
+#X connect 4 0 2 0;
+#X connect 6 0 12 0;
+#X connect 7 0 6 0;
+#X connect 8 0 7 1;
+#X connect 11 0 1 0;
+#X connect 12 0 5 0;
+#X connect 12 1 7 0;
+#X restore 124 125 pd sound-source;
+#X obj 124 263 dac~;
+#X text 161 181 speed;
+#X msg 284 257 \; pd dsp \$1;
+#X obj 284 231 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X floatatom 204 168 5 0 1 2 position position -;
+#X obj 28 47 vsl 15 128 -2 2 0 0 speed speed-slider speed 0 -8 0 8
+-253906 -1 -1 6325 1;
+#X obj 60 47 vsl 15 128 0 1 0 0 position empty position 0 -8 0 8 -4094
+-1 -1 8000 1;
+#X text 329 185 <- ask me what I can do;
+#X floatatom 245 291 5 0 0 0 - - -;
+#X text 245 307 recording sync;
+#X text 112 352 residency~ is a spectral sampler. The first argument
+specifies how many milliseconds of sampling memory to use. Start conservatively.
+If you request more memory than is available \, you may experience
+difficulty.;
+#X connect 0 0 4 0;
+#X connect 0 0 4 1;
+#X connect 0 1 12 0;
+#X connect 1 0 0 3;
+#X connect 2 0 0 1;
+#X connect 3 0 0 0;
+#X connect 7 0 6 0;
+#X connect 8 0 0 2;

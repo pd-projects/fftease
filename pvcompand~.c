@@ -211,9 +211,9 @@ void pvcompand_init(t_pvcompand *x,short initialized)
 {
 int i;
 
-  if(!power_of_two(x->overlap))
+  if(!fftease_power_of_two(x->overlap))
   	x->overlap = 4;
-  if(!power_of_two(x->winfac))
+  if(!fftease_power_of_two(x->winfac))
   	x->winfac = 1;
   	
   x->N = x->D * x->overlap;
@@ -461,7 +461,7 @@ float pvcompand_ampdb(float db)
 void pvcompand_overlap(t_pvcompand *x, t_floatarg f)
 {
 int i = (int) f;
-  if(!power_of_two(i)){
+  if(!fftease_power_of_two(i)){
     error("%f is not a power of two",f);
     return;
   }
@@ -473,7 +473,7 @@ void pvcompand_winfac(t_pvcompand *x, t_floatarg f)
 {
 int i = (int)f;
 
-  if(!power_of_two(i)){
+  if(!fftease_power_of_two(i)){
     error("%f is not a power of two",f);
     return;
   }

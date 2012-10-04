@@ -174,9 +174,9 @@ void *scrape_new(t_symbol *msg, short argc, t_atom *argv)
 	if( x->scrape_mult < 0 || x->scrape_mult > 10 ){
 		x->scrape_mult = 0.1;
 	}
-	if(!power_of_two(x->overlap))
+	if(!fftease_power_of_two(x->overlap))
 		x->overlap = 4;
-	if(!power_of_two(x->winfac))
+	if(!fftease_power_of_two(x->winfac))
 		x->winfac = 1;
 	
 	x->vs = sys_getblksize();
@@ -223,7 +223,7 @@ void scrape_init(t_scrape *x, short initialized)
 void scrape_overlap(t_scrape *x, t_floatarg f)
 {
 	int i = (int) f;
-	if(!power_of_two(i)){
+	if(!fftease_power_of_two(i)){
 		error("%f is not a power of two",f);
 		return;
 	}
@@ -235,7 +235,7 @@ void scrape_winfac(t_scrape *x, t_floatarg f)
 {
 	int i = (int)f;
 	
-	if(!power_of_two(i)){
+	if(!fftease_power_of_two(i)){
 		error("%f is not a power of two",f);
 		return;
 	}

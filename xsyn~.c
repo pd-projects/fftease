@@ -136,7 +136,7 @@ void xsyn_mute(t_xsyn *x, t_floatarg toggle)
 void xsyn_overlap(t_xsyn *x, t_floatarg f)
 {
 	int i = (int) f;
-	if(!power_of_two(i)){
+	if(!fftease_power_of_two(i)){
 		error("%f is not a power of two",f);
 		return;
 	}
@@ -148,7 +148,7 @@ void xsyn_winfac(t_xsyn *x, t_floatarg f)
 {
 	int i = (int)f;
 	
-	if(!power_of_two(i)){
+	if(!fftease_power_of_two(i)){
 		error("%f is not a power of two",f);
 		return;
 	}
@@ -196,9 +196,9 @@ void *xsyn_new(t_symbol *s, int argc, t_atom *argv)
 #endif
 	x->overlap = atom_getfloatarg(0,argc,argv);
 	x->winfac = atom_getfloatarg(1,argc,argv);
-	if(!power_of_two(x->overlap))
+	if(!fftease_power_of_two(x->overlap))
 		x->overlap = 4;
-	if(!power_of_two(x->winfac))
+	if(!fftease_power_of_two(x->winfac))
 		x->winfac = 1;
 	
 	x->R = sys_getsr();

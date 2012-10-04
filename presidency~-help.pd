@@ -1,0 +1,250 @@
+#N canvas 58 237 555 452 10;
+#N canvas 431 336 551 457 messages 0;
+#X obj 34 383 outlet;
+#X floatatom 42 228 5 0 0 2 - size -;
+#X msg 42 259 size \$1;
+#X obj 34 87 bng 15 250 50 0 empty trigger trigger_sampling 0 -6 0
+8 -262144 -1 -1;
+#X obj 64 139 s playsound;
+#X obj 34 115 t b b;
+#X msg 34 166 acquire_sample;
+#X msg 85 230 10000;
+#X obj 280 367 fftease-system;
+#X text 45 210 resize memory (but with DACs off to be safe);
+#X obj 291 266 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 320 265 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 349 265 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 291 239 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#N canvas 0 22 462 312 init 0;
+#X msg 33 61 playthrough 1;
+#X obj 33 34 loadbang;
+#X obj 33 103 outlet;
+#X obj 233 93 loadbang;
+#X msg 233 114 1;
+#X obj 233 136 s speed-slider;
+#X msg 137 61 verbose 0;
+#X msg 169 142 1;
+#X obj 169 164 s transpose-slider;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 1 0 6 0;
+#X connect 3 0 4 0;
+#X connect 3 0 7 0;
+#X connect 4 0 5 0;
+#X connect 6 0 2 0;
+#X connect 7 0 8 0;
+#X restore 111 335 pd init;
+#N canvas 260 69 789 579 frequency-boundaries 0;
+#X msg 283 158 high_freq \$1;
+#X obj 286 120 hsl 128 15 500 8000 0 0 empty empty empty -2 -6 0 8
+-155632 -1 -1 0 1;
+#X floatatom 283 140 5 0 0 0 - - -;
+#X text 280 102 highest frequency to resynthesize;
+#X text 9 364 note: these relate to frequencies in the original sound.
+If you transpose the resynthesis \, you will go outside these ranges.
+;
+#X obj 4 318 outlet;
+#X obj 7 117 hsl 128 15 0 1000 0 0 empty empty empty -2 -6 0 8 -155632
+-1 -1 0 1;
+#X floatatom 4 138 5 0 0 0 - - -;
+#X msg 4 167 low_freq \$1;
+#X obj 7 117 hsl 128 15 0 1000 0 0 empty empty empty -2 -6 0 8 -155632
+-1 -1 0 1;
+#X text -1 98 lowest frequency to resynthesize;
+#X connect 0 0 5 0;
+#X connect 1 0 2 0;
+#X connect 2 0 0 0;
+#X connect 6 0 7 0;
+#X connect 7 0 8 0;
+#X connect 8 0 5 0;
+#X restore 64 287 pd frequency-boundaries;
+#N canvas 24 525 634 358 random-behavior 0;
+#X obj 46 95 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X obj 46 149 random 1000;
+#X obj 46 187 * 0.001;
+#X obj 190 101 random 1000;
+#X obj 190 139 * 0.001;
+#X obj 190 169 * 3;
+#X obj 190 196 + 0.05;
+#X obj 190 46 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X obj 190 73 metro 233;
+#X obj 46 57 inlet;
+#X obj 46 243 spigot;
+#X obj 83 221 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1 1
+;
+#X obj 190 243 spigot;
+#X obj 227 221 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1
+1;
+#X obj 344 101 random 1000;
+#X obj 344 139 * 0.001;
+#X obj 344 73 metro 233;
+#X obj 344 243 spigot;
+#X obj 381 221 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1
+1;
+#X obj 344 169 * 2;
+#X obj 344 196 - 1;
+#X obj 344 50 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X obj 190 19 inlet;
+#X obj 344 18 inlet;
+#X obj 344 268 s speed-slider;
+#X obj 190 268 s transpose-slider;
+#X obj 46 268 s position-slider;
+#X obj 479 183 loadbang;
+#X msg 479 205 1;
+#X obj 46 121 metro 650;
+#X connect 0 0 29 0;
+#X connect 1 0 2 0;
+#X connect 2 0 10 0;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X connect 5 0 6 0;
+#X connect 6 0 12 0;
+#X connect 7 0 8 0;
+#X connect 8 0 3 0;
+#X connect 9 0 0 0;
+#X connect 10 0 26 0;
+#X connect 11 0 10 1;
+#X connect 12 0 25 0;
+#X connect 13 0 12 1;
+#X connect 14 0 15 0;
+#X connect 15 0 19 0;
+#X connect 16 0 14 0;
+#X connect 17 0 24 0;
+#X connect 18 0 17 1;
+#X connect 19 0 20 0;
+#X connect 20 0 17 0;
+#X connect 21 0 16 0;
+#X connect 22 0 7 0;
+#X connect 23 0 21 0;
+#X connect 27 0 28 0;
+#X connect 28 0 18 0;
+#X connect 28 0 13 0;
+#X connect 28 0 11 0;
+#X connect 29 0 1 0;
+#X restore 291 288 pd random-behavior;
+#X text 36 10 Load a valid soundfile in sound-source \, then hit the
+sampling trigger below. The resulting recording is stored as a series
+of FFT frames inside presidency~ available for arbitrary time-access.
+;
+#X connect 1 0 2 0;
+#X connect 2 0 0 0;
+#X connect 3 0 5 0;
+#X connect 5 0 6 0;
+#X connect 5 1 4 0;
+#X connect 6 0 0 0;
+#X connect 7 0 2 0;
+#X connect 8 0 0 0;
+#X connect 10 0 16 0;
+#X connect 11 0 16 1;
+#X connect 12 0 16 2;
+#X connect 13 0 10 0;
+#X connect 13 0 11 0;
+#X connect 13 0 12 0;
+#X connect 14 0 0 0;
+#X connect 15 0 0 0;
+#X restore 252 214 pd messages;
+#X floatatom 156 134 5 0 0 2 speed speed -;
+#N canvas 0 22 530 380 sound-source 0;
+#X text 13 300 try a vocal sound or other sound with strong formant
+structure;
+#X obj 31 194 soundfiler;
+#X obj 31 160 openpanel;
+#N canvas 0 22 450 300 graph1 0;
+#X array presidency-sound1 441202 float 2;
+#X coords 0 1 441201 -1 200 140 1;
+#X restore 237 13 graph;
+#X msg 31 131 bang;
+#X obj 227 284 outlet~;
+#X msg 227 244 bang;
+#X obj 348 228 spigot;
+#X obj 385 205 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X text 63 132 open the sound;
+#X text 133 244 then play it;
+#X text 304 190 loop if you like;
+#X obj 227 268 tabplay~ presidency-sound1;
+#X msg 31 177 read -resize \$1 presidency-sound1;
+#X obj 227 219 r playsound;
+#X connect 2 0 13 0;
+#X connect 4 0 2 0;
+#X connect 6 0 12 0;
+#X connect 7 0 6 0;
+#X connect 8 0 7 1;
+#X connect 12 0 5 0;
+#X connect 12 1 7 0;
+#X connect 13 0 1 0;
+#X connect 14 0 6 0;
+#X restore 124 95 pd sound-source;
+#X msg 301 272 \; pd dsp \$1;
+#X obj 301 246 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X floatatom 188 163 5 0 1 2 position position -;
+#X obj 28 47 vsl 15 128 -2 2 0 0 speed speed-slider speed 0 -8 0 8
+-253906 -1 -1 9525 1;
+#X obj 60 47 vsl 15 128 0 1 0 0 position position-slider position 0
+-8 0 8 -4094 -1 -1 0 1;
+#X text 333 214 <- ask me what I can do;
+#X floatatom 220 194 5 0 1 2 transpose transpose -;
+#X obj 35 216 vsl 15 128 0.1 2 0 0 transpose transpose-slider transpose
+0 -8 0 8 -231210 -1 -1 6016 1;
+#X msg 29 13 0;
+#N canvas 81 500 498 348 presidency-block 0;
+#X obj 28 42 inlet~;
+#X obj 89 42 inlet~;
+#X obj 150 42 inlet~;
+#X obj 313 66 inlet;
+#X obj 28 140 outlet~;
+#X obj 28 169 block~ 256;
+#X text 103 171 FFT size is block~ size times overlap;
+#X obj 28 99 presidency~ 5000 0 4000 4 1;
+#X obj 212 42 inlet~;
+#X text 39 120 args: size \, minfreq \, maxfreq \, overlap \, window
+factor;
+#X obj 323 279 outlet;
+#X obj 323 251 snapshot~;
+#X obj 378 213 metro 50;
+#X msg 378 192 1;
+#X obj 378 156 loadbang;
+#X connect 0 0 7 0;
+#X connect 1 0 7 1;
+#X connect 2 0 7 2;
+#X connect 3 0 7 0;
+#X connect 7 0 4 0;
+#X connect 7 1 11 0;
+#X connect 8 0 7 3;
+#X connect 11 0 10 0;
+#X connect 12 0 11 0;
+#X connect 13 0 12 0;
+#X connect 14 0 13 0;
+#X restore 124 246 pd presidency-block;
+#X text 128 372 presidency~ follows the residency~ model but uses an
+oscillator bank for resynthesis and offers independent control of speed
+\, location and transposition of playback.;
+#X text 237 94 <- first load a sound here;
+#X floatatom 252 271 5 0 0 0 - - -;
+#X text 212 272 sync;
+#X obj 214 31 hsl 128 15 0 1 0 0 presidency-gain empty gain -2 -6 0
+8 -67648 -1 -1 0 1;
+#X obj 124 322 dac~;
+#X obj 124 284 *~ 0.25;
+#X floatatom 168 268 5 0 0 3 - presidency-gain -;
+#X text 59 14 freeze frame;
+#X connect 0 0 12 4;
+#X connect 1 0 12 1;
+#X connect 2 0 12 0;
+#X connect 4 0 3 0;
+#X connect 5 0 12 2;
+#X connect 9 0 12 3;
+#X connect 11 0 6 0;
+#X connect 12 0 19 0;
+#X connect 12 1 15 0;
+#X connect 19 0 18 1;
+#X connect 19 0 18 0;
+#X connect 20 0 19 1;

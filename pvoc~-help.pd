@@ -1,0 +1,114 @@
+#N canvas -2 462 686 439 10;
+#N canvas 0 22 502 352 pvocblock 0;
+#X obj 27 158 outlet~;
+#X obj 27 42 inlet~;
+#X obj 80 13 inlet;
+#X obj 134 46 inlet;
+#X obj 213 69 inlet;
+#X text 145 87 args: lo-freq \, hi-freq \, overlap \, window-factor
+;
+#X obj 27 85 pvoc~ 0 8000 4 4;
+#X obj 27 182 block~ 256;
+#X connect 1 0 6 0;
+#X connect 2 0 6 1;
+#X connect 3 0 6 2;
+#X connect 4 0 6 0;
+#X connect 6 0 0 0;
+#X restore 203 144 pd pvocblock;
+#X obj 203 203 dac~;
+#X floatatom 229 68 5 0.1 3 2 transpose transpose -;
+#X floatatom 255 99 5 0 0 2 thresh thresh -;
+#X msg 44 193 \; pd dsp \$1;
+#X obj 44 174 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X obj 80 285 hsl 128 15 0.1 4 0 0 empty empty empty -2 -6 0 8 -261285
+-1 -1 1931 1;
+#N canvas 242 216 504 402 messages 1;
+#X obj 70 293 outlet;
+#X floatatom 70 82 5 0 0 0 - - -;
+#X msg 70 112 highfreq \$1;
+#X floatatom 182 175 5 0 0 0 - - -;
+#X msg 182 204 lowfreq \$1;
+#X msg 70 53 8000;
+#X obj 70 27 loadbang;
+#X msg 182 154 0;
+#X obj 182 132 loadbang;
+#X obj 212 267 fftease-system;
+#X obj 161 48 hsl 128 15 500 8000 0 0 empty empty empty -2 -6 0 8 -68760
+-1 -1 6900 1;
+#X obj 256 148 hsl 128 15 0 1000 0 0 empty empty empty -2 -6 0 8 -68760
+-1 -1 0 1;
+#X text 149 22 maximum frequency to synthesize;
+#X text 252 124 minimum;
+#X connect 1 0 2 0;
+#X connect 2 0 0 0;
+#X connect 3 0 4 0;
+#X connect 4 0 0 0;
+#X connect 5 0 1 0;
+#X connect 6 0 5 0;
+#X connect 7 0 3 0;
+#X connect 8 0 7 0;
+#X connect 9 0 0 0;
+#X connect 10 0 1 0;
+#X connect 11 0 3 0;
+#X restore 282 116 pd messages;
+#X obj 222 285 hsl 128 15 0 0.05 0 0 empty empty empty -2 -6 0 8 -227712
+-1 -1 300 1;
+#X obj 219 311 s thresh;
+#X obj 77 311 s transpose;
+#X obj 77 233 loadbang;
+#X msg 77 264 1;
+#X obj 311 144 hsl 128 15 0 1 0 0 empty empty empty -2 -6 0 8 -43049
+-1 -1 5400 1;
+#X obj 203 170 *~ 0.01;
+#X text 444 143 gain;
+#N canvas 639 439 639 490 sndfile 0;
+#X text 13 300 try a vocal sound or other sound with strong formant
+structure;
+#X obj 31 194 soundfiler;
+#X obj 31 160 openpanel;
+#N canvas 0 22 450 300 graph1 0;
+#X array pvoc-sound1 4e+06 float 2;
+#X coords 0 1 4e+06 -1 200 140 1;
+#X restore 237 13 graph;
+#X msg 31 131 bang;
+#X obj 227 284 outlet~;
+#X msg 227 244 bang;
+#X obj 348 228 spigot;
+#X obj 385 205 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1
+1;
+#X text 63 132 open the sound;
+#X text 133 244 then play it;
+#X text 304 190 loop if you like;
+#X obj 227 268 tabplay~ pvoc-sound1;
+#X msg 31 177 read -resize \$1 pvoc-sound1;
+#X connect 2 0 13 0;
+#X connect 4 0 2 0;
+#X connect 6 0 12 0;
+#X connect 7 0 6 0;
+#X connect 8 0 7 1;
+#X connect 12 0 5 0;
+#X connect 12 1 7 0;
+#X connect 13 0 1 0;
+#X restore 203 31 pd sndfile;
+#X msg 219 249 0.001;
+#X text 286 27 <- load a soundfile here;
+#X text 75 345 pvoc~ allows you to change the pitch of the input sound
+without changing its speed. Optional arguments: low frequency to synthesize
+\, high frequency to synthesize. These parameters \, together with
+the pvoc~ block size will determine CPU load.;
+#X connect 0 0 14 0;
+#X connect 2 0 0 1;
+#X connect 3 0 0 2;
+#X connect 5 0 4 0;
+#X connect 6 0 10 0;
+#X connect 7 0 0 3;
+#X connect 8 0 9 0;
+#X connect 11 0 12 0;
+#X connect 11 0 17 0;
+#X connect 12 0 6 0;
+#X connect 13 0 14 1;
+#X connect 14 0 1 0;
+#X connect 14 0 1 1;
+#X connect 16 0 0 0;
+#X connect 17 0 8 0;

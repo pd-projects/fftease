@@ -1,0 +1,92 @@
+#N canvas 224 36 657 848 10;
+#X msg 360 574 \; pd dsp \$1;
+#X obj 360 548 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 136 366 dac~;
+#X obj 180 295 nbx 5 14 -1e+37 1e+37 0 0 empty out-gain empty 0 -6
+0 10 -262144 -1 -1 0.0551181 256;
+#X obj 29 394 hsl 128 15 60 600 0 0 cf1 empty cf1 -2 -6 0 8 -235882
+-1 -1 5400 1;
+#X obj 49 151 noise~;
+#N canvas 0 22 502 352 multyq-block 0;
+#X obj 71 352 block~ 256;
+#X obj 28 95 inlet~;
+#X obj 193 169 inlet;
+#X obj 72 299 outlet~;
+#X obj 72 256 multyq~ 4 1;
+#X obj 249 239 inlet;
+#X obj 66 143 inlet;
+#X obj 72 182 inlet;
+#X obj 78 217 inlet;
+#X obj 110 142 inlet;
+#X obj 116 181 inlet;
+#X obj 122 216 inlet;
+#X text 67 105 [cf \, bw \, gain] triplets;
+#X obj 182 141 inlet~;
+#X obj 199 189 inlet;
+#X connect 1 0 4 0;
+#X connect 2 0 4 8;
+#X connect 4 0 3 0;
+#X connect 5 0 4 0;
+#X connect 6 0 4 1;
+#X connect 7 0 4 2;
+#X connect 8 0 4 3;
+#X connect 9 0 4 4;
+#X connect 10 0 4 5;
+#X connect 11 0 4 6;
+#X connect 13 0 4 7;
+#X connect 14 0 4 9;
+#X restore 136 261 pd multyq-block;
+#X floatatom 146 7 5 0 0 2 - cf1 -;
+#X floatatom 156 22 5 0 0 2 - bw1 -;
+#X floatatom 166 37 5 0 0 2 - gain1 -;
+#X obj 30 433 hsl 128 15 0.01 0.5 0 0 bw1 empty bw1 -2 -6 0 8 -235882
+-1 -1 7000 1;
+#X obj 30 471 hsl 128 15 0 20 0 0 gain1 empty gain1 -2 -6 0 8 -235882
+-1 -1 7900 1;
+#X obj 136 314 *~ 0.05;
+#X obj 190 595 hsl 128 15 0 1 0 0 out-gain empty out-gain -2 -6 0 8
+-44646 -1 -1 700 1;
+#X obj 31 518 hsl 128 15 600 2000 0 0 cf2 empty cf2 -2 -6 0 8 -235882
+-1 -1 2300 1;
+#X obj 31 557 hsl 128 15 0.01 0.5 0 0 bw2 empty bw2 -2 -6 0 8 -235882
+-1 -1 8100 1;
+#X obj 31 595 hsl 128 15 -1 20 0 0 gain2 empty gain2 -2 -6 0 8 -235882
+-1 -1 6600 1;
+#X floatatom 176 56 5 0 0 2 - cf2 -;
+#X floatatom 186 73 5 0 0 2 - bw2 -;
+#X floatatom 196 92 5 0 0 2 - gain2 -;
+#X obj 206 111 phasor~ 2;
+#X obj 206 134 *~ 2000;
+#X obj 206 157 +~ 1500;
+#X obj 246 452 hsl 128 15 0.01 0.5 0 0 bw3 empty bw3 -2 -6 0 8 -125810
+-1 -1 3900 1;
+#X obj 247 485 hsl 128 15 -1 20 0 0 gain3 empty gain3 -2 -6 0 8 -125810
+-1 -1 5400 1;
+#X floatatom 216 185 5 0 0 0 - bw3 -;
+#X floatatom 226 213 5 0 0 0 - gain3 -;
+#X obj 236 238 fftease-system;
+#X text 29 643 multyq~ is a four band equalizer. Gain values below
+0 create notches rather than peaks \, but only go as far as -1.0. Bandwidth
+is from 0 to 1.0. Only three bands are used in this example \, but
+cpu usage is the same regardless of how many are used. As the filter
+is FFT-based \, its performance is spotty in the low frequency range.
+;
+#X connect 1 0 0 0;
+#X connect 3 0 12 1;
+#X connect 5 0 6 0;
+#X connect 6 0 12 0;
+#X connect 7 0 6 1;
+#X connect 8 0 6 2;
+#X connect 9 0 6 3;
+#X connect 12 0 2 0;
+#X connect 12 0 2 1;
+#X connect 17 0 6 4;
+#X connect 18 0 6 5;
+#X connect 19 0 6 6;
+#X connect 20 0 21 0;
+#X connect 21 0 22 0;
+#X connect 22 0 6 7;
+#X connect 25 0 6 8;
+#X connect 26 0 6 9;
+#X connect 27 0 6 10;

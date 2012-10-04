@@ -217,10 +217,10 @@ void *centerring_new(t_symbol *s, int argc, t_atom *argv)
   x->overlap = atom_getfloatarg(4,argc,argv);
   x->winfac = atom_getfloatarg(5,argc,argv);  
 
-  if(!power_of_two(x->overlap)){
+  if(!fftease_power_of_two(x->overlap)){
 	x->overlap = 4;
   }
-  if(!power_of_two(x->winfac)){
+  if(!fftease_power_of_two(x->winfac)){
 	x->winfac = 1;
   }  
 
@@ -538,7 +538,7 @@ void centerring_mute(t_centerring *x, t_floatarg toggle)
 
 void centerring_overlap(t_centerring *x, t_floatarg o)
 {
-  if(!power_of_two((int)o)){
+  if(!fftease_power_of_two((int)o)){
 	error("%f is not a power of two",o);
     return;
   }
@@ -548,7 +548,7 @@ void centerring_overlap(t_centerring *x, t_floatarg o)
 
 void centerring_winfac(t_centerring *x, t_floatarg f)
 {
-  if(!power_of_two((int)f)){
+  if(!fftease_power_of_two((int)f)){
     error("%f is not a power of two",f);
     return;
   }

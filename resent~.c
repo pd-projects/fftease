@@ -182,7 +182,7 @@ void resent_verbose(t_resent *x, t_floatarg t)
 void resent_overlap(t_resent *x, t_floatarg f)
 {
 int i = (int) f;
-  if(!power_of_two(i)){
+  if(!fftease_power_of_two(i)){
     error("%f is not a power of two",f);
     return;
   }
@@ -194,7 +194,7 @@ void resent_winfac(t_resent *x, t_floatarg f)
 {
 int i = (int)f;
 
-  if(!power_of_two(i)){
+  if(!fftease_power_of_two(i)){
     error("%f is not a power of two",f);
     return;
   }
@@ -382,9 +382,9 @@ void resent_init(t_resent *x,short initialized)
     x->D = 256;
   if(!x->R)
     x->R = 44100;
-  if(!power_of_two(x->winfac))
+  if(!fftease_power_of_two(x->winfac))
     x->winfac = 1;
-  if(!power_of_two(x->overlap))
+  if(!fftease_power_of_two(x->overlap))
     x->overlap = 1;
 
   x->verbose = 0; // testing only

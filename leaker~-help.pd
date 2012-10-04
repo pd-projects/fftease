@@ -1,0 +1,106 @@
+#N canvas 718 386 500 440 10;
+#N canvas 0 22 462 312 leaker-block 0;
+#X obj 194 143 outlet~;
+#X obj 198 186 block~ 256;
+#X obj 194 112 leaker~ 4 1;
+#X obj 165 52 inlet~;
+#X obj 212 52 inlet~;
+#X obj 280 60 inlet;
+#X obj 329 97 inlet;
+#X connect 2 0 0 0;
+#X connect 3 0 2 0;
+#X connect 4 0 2 1;
+#X connect 5 0 2 2;
+#X connect 6 0 2 0;
+#X restore 96 168 pd leaker-block;
+#X msg 255 182 \; pd dsp \$1;
+#X obj 255 159 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 96 221 dac~;
+#X floatatom 162 113 5 0 1 0 - xfade -;
+#X obj 100 254 hsl 128 15 0 1 0 0 xfade empty xfade -2 -6 0 8 -260372
+-1 -1 10400 1;
+#N canvas 0 22 466 316 messages 1;
+#X msg 40 116 upsieve;
+#X msg 52 138 downsieve;
+#X msg 69 163 randsieve;
+#X obj 40 262 outlet;
+#X obj 105 220 fftease-system;
+#X text 43 90 select sieve characteristic:;
+#X connect 0 0 3 0;
+#X connect 1 0 3 0;
+#X connect 2 0 3 0;
+#X connect 4 0 3 0;
+#X restore 196 141 pd messages;
+#X text 237 254 <- spectral crossfade here;
+#X obj 16 215 loadbang;
+#X msg 16 238 0.5;
+#N canvas 990 218 520 409 playsound1 0;
+#X obj 31 194 soundfiler;
+#X obj 31 160 openpanel;
+#N canvas 0 22 450 300 graph1 0;
+#X array leaker-sound1 4e+06 float 2;
+#X coords 0 1 4e+06 -1 200 140 1;
+#X restore 237 13 graph;
+#X msg 31 131 bang;
+#X obj 227 284 outlet~;
+#X msg 227 244 bang;
+#X obj 348 228 spigot;
+#X obj 385 205 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1
+1;
+#X text 63 132 open the sound;
+#X text 133 244 then play it;
+#X text 304 190 loop if you like;
+#X msg 31 177 read -resize \$1 leaker-sound1;
+#X obj 227 268 tabplay~ leaker-sound1;
+#X connect 1 0 11 0;
+#X connect 3 0 1 0;
+#X connect 5 0 12 0;
+#X connect 6 0 5 0;
+#X connect 7 0 6 1;
+#X connect 11 0 0 0;
+#X connect 12 0 4 0;
+#X connect 12 1 6 0;
+#X restore 96 37 pd playsound1;
+#N canvas 990 218 516 405 playsound2 0;
+#X obj 31 194 soundfiler;
+#X obj 31 160 openpanel;
+#X msg 31 131 bang;
+#X obj 227 284 outlet~;
+#X msg 227 244 bang;
+#X obj 348 228 spigot;
+#X obj 385 205 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1
+1;
+#X text 63 132 open the sound;
+#X text 133 244 then play it;
+#X text 304 190 loop if you like;
+#N canvas 0 22 450 300 graph2 0;
+#X array leaker-sound2 2.499e+06 float 2;
+#X coords 0 1 2.499e+06 -1 200 140 1;
+#X restore 216 15 graph;
+#X msg 31 177 read -resize \$1 leaker-sound2;
+#X obj 227 268 tabplay~ leaker-sound2;
+#X connect 1 0 11 0;
+#X connect 2 0 1 0;
+#X connect 4 0 12 0;
+#X connect 5 0 4 0;
+#X connect 6 0 5 1;
+#X connect 11 0 0 0;
+#X connect 12 0 3 0;
+#X connect 12 1 5 0;
+#X restore 129 55 pd playsound2;
+#X text 38 317 leaker~ combines two input sounds \, with the spectral
+contribution of each sound determined by an internally maintained sieve
+and a threshold selection value. At value 0 \, only sound 1 is heard
+and at value 1 \, only sound 2 is heard. At intermediate values \,
+parts of each spectrum are aggregated according to the sieve structure
+which may be specified as upsieve \, downsieve or randsieve.;
+#X connect 0 0 3 0;
+#X connect 0 0 3 1;
+#X connect 2 0 1 0;
+#X connect 4 0 0 2;
+#X connect 6 0 0 3;
+#X connect 8 0 9 0;
+#X connect 9 0 5 0;
+#X connect 10 0 0 0;
+#X connect 11 0 0 1;

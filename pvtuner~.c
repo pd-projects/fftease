@@ -200,9 +200,9 @@ void pvtuner_init(t_pvtuner *x,short initialized)
 	if(!x->D)
 		x->D = 256;
   	
-	if(!power_of_two(x->overlap))
+	if(!fftease_power_of_two(x->overlap))
 		x->overlap = 4;
-	if(!power_of_two(x->winfac))
+	if(!fftease_power_of_two(x->winfac))
 		x->winfac = 2;
 	
 	x->Iinv = 1./x->D;
@@ -1091,7 +1091,7 @@ void pvtuner_mute(t_pvtuner *x, t_floatarg state)
 void pvtuner_overlap(t_pvtuner *x, t_floatarg f)
 {
 	int i = (int) f;
-	if(!power_of_two(i)){
+	if(!fftease_power_of_two(i)){
 		error("%f is not a power of two",f);
 		return;
 	}
@@ -1103,7 +1103,7 @@ void pvtuner_winfac(t_pvtuner *x, t_floatarg f)
 {
 	int i = (int)f;
 	
-	if(!power_of_two(i)){
+	if(!fftease_power_of_two(i)){
 		error("%f is not a power of two",f);
 		return;
 	}

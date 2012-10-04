@@ -1,0 +1,38 @@
+#N canvas 724 87 493 474 10;
+#X obj 174 207 outlet;
+#X msg 174 167 overlap \$1;
+#X msg 161 122 2;
+#X msg 202 121 4;
+#X msg 235 120 8;
+#X msg 297 165 winfac \$1;
+#X msg 282 120 1;
+#X msg 323 119 2;
+#X msg 355 118 4;
+#X msg 36 175 fftinfo;
+#X msg 102 155 mute \$1;
+#X obj 102 120 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X text 45 27 FFT size is overlap times the fftease subpatch block
+size (256 in our examples). With a blocksize of 256 and overlap 4 your
+FFT size is 1024 Higher overlap generally gives higher quality \, but
+CPU load is proportional to overlap \, so if you double the overlap
+\, you double the CPU load.;
+#X text 33 245 winfac determines the ratio between the FFT size and
+an input window that funnels samples into the FFT. Roughly speaking
+\, smaller window sizes (minimum is 1) give tighter temporal response
+\, but higher sizes can improve frequency performance \, especially
+with lower FFT sizes.;
+#X text 29 337 It is recommended that overlap and winfac only be used
+when the DACs are off. They can potentially crash Pd when the DACs
+are active.;
+#X connect 1 0 0 0;
+#X connect 2 0 1 0;
+#X connect 3 0 1 0;
+#X connect 4 0 1 0;
+#X connect 5 0 0 0;
+#X connect 6 0 5 0;
+#X connect 7 0 5 0;
+#X connect 8 0 5 0;
+#X connect 9 0 0 0;
+#X connect 10 0 0 0;
+#X connect 11 0 10 0;

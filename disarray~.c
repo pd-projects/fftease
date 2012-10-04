@@ -149,7 +149,7 @@ void disarray_free(t_disarray *x)
 
 void disarray_overlap(t_disarray *x, t_floatarg o)
 {
-  if(!power_of_two(o)){
+  if(!fftease_power_of_two(o)){
     error("%f is not a power of two",o);
     return;
   }
@@ -159,7 +159,7 @@ void disarray_overlap(t_disarray *x, t_floatarg o)
 
 void disarray_winfac(t_disarray *x, t_floatarg f)
 {
-  if(!power_of_two(f)){
+  if(!fftease_power_of_two(f)){
     error("%f is not a power of two",f);
     return;
   }
@@ -233,9 +233,9 @@ void *disarray_new(t_symbol *msg, short argc, t_atom *argv)
   x->overlap = atom_getintarg(1,argc,argv);
   x->winfac = atom_getintarg(2,argc,argv);
   
-  if(!power_of_two(x->overlap))
+  if(!fftease_power_of_two(x->overlap))
   	x->overlap = 4;
-  if(!power_of_two(x->winfac))
+  if(!fftease_power_of_two(x->winfac))
   	x->winfac = 1; 
   disarray_init(x,0);
     return (x);
@@ -248,10 +248,10 @@ void disarray_init(t_disarray *x, short initialized)
 	float curfreq;
 	
 	
-	if(!power_of_two(x->winfac)){
+	if(!fftease_power_of_two(x->winfac)){
 		x->winfac = 1;
 	}
-	if(!power_of_two(x->overlap)){
+	if(!fftease_power_of_two(x->overlap)){
 		x->overlap = 4;
 	}	
 	

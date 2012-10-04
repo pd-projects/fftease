@@ -1,0 +1,140 @@
+#N canvas 281 24 668 454 10;
+#X obj 167 237 *~ 1;
+#X obj 167 289 dac~;
+#X floatatom 190 218 5 0 0 0 - centerring-gain -;
+#X msg 333 284 \; pd dsp \$1;
+#X obj 333 267 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 17 207 hsl 128 15 0 4 0 0 centerring-gain empty output_gain
+-2 -6 0 8 -79789 -1 -1 317 1;
+#N canvas 0 22 519 354 messages 0;
+#X obj 132 268 outlet;
+#X text 30 194 turn on invert;
+#X msg 132 175 pad \$1;
+#X obj 132 146 ampdb;
+#X floatatom 132 116 5 -200 -12 0 - - -;
+#X text 221 177 is turned on;
+#X obj 9 195 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X msg 9 217 invert \$1;
+#X text 221 163 pad affects the gain only when "invert";
+#X obj 184 233 fftease-system;
+#X connect 2 0 0 0;
+#X connect 3 0 2 0;
+#X connect 4 0 3 0;
+#X connect 6 0 7 0;
+#X connect 7 0 0 0;
+#X connect 9 0 0 0;
+#X restore 448 167 pd messages;
+#X obj 18 240 hsl 128 15 0.15 1 0 0 cod-scaling-exponent empty scaling_exponent
+-2 -6 0 8 -88868 -1 -1 2241 1;
+#N canvas 376 316 470 320 codepend-block 0;
+#X obj 233 219 block~ 256;
+#X obj 163 185 outlet~;
+#X obj 163 38 inlet~;
+#X obj 269 107 inlet;
+#X obj 201 81 inlet;
+#X obj 221 98 inlet;
+#X obj 163 128 codepend~;
+#X obj 182 65 inlet~;
+#X connect 2 0 6 0;
+#X connect 3 0 6 0;
+#X connect 4 0 6 2;
+#X connect 5 0 6 3;
+#X connect 6 0 1 0;
+#X connect 7 0 6 1;
+#X restore 167 183 pd codepend-block;
+#X obj 252 142 ampdb;
+#X floatatom 252 122 5 0 0 0 - cod-inverse-threshold -;
+#X floatatom 252 164 5 0 0 0 - - -;
+#N canvas 990 218 504 393 playsound1 0;
+#X obj 31 194 soundfiler;
+#X obj 31 160 openpanel;
+#X msg 31 177 read -resize \$1 codepend-sound1;
+#N canvas 0 22 450 300 graph1 0;
+#X array codepend-sound1 501762 float 2;
+#X coords 0 1 501761 -1 200 140 1;
+#X restore 237 13 graph;
+#X msg 31 131 bang;
+#X obj 227 284 outlet~;
+#X obj 227 268 tabplay~ codepend-sound1;
+#X msg 227 244 bang;
+#X obj 348 228 spigot;
+#X obj 385 205 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X text 63 132 open the sound;
+#X text 133 244 then play it;
+#X text 304 190 loop if you like;
+#X connect 1 0 2 0;
+#X connect 2 0 0 0;
+#X connect 4 0 1 0;
+#X connect 6 0 5 0;
+#X connect 6 1 8 0;
+#X connect 7 0 6 0;
+#X connect 8 0 7 0;
+#X connect 9 0 8 1;
+#X restore 167 22 pd playsound1;
+#N canvas 990 218 508 397 playsound2 0;
+#X obj 31 194 soundfiler;
+#X obj 31 160 openpanel;
+#X msg 31 131 bang;
+#X obj 227 284 outlet~;
+#X msg 227 244 bang;
+#X obj 348 228 spigot;
+#X obj 385 205 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X text 63 132 open the sound;
+#X text 133 244 then play it;
+#X text 304 190 loop if you like;
+#X text 316 205 comment;
+#X msg 31 177 read -resize \$1 codepend-sound2;
+#N canvas 0 22 450 300 graph2 0;
+#X array codepend-sound2 4e+06 float 2;
+#X coords 0 1 4e+06 -1 200 140 1;
+#X restore 216 15 graph;
+#X obj 227 268 tabplay~ codepend-sound2;
+#X connect 1 0 11 0;
+#X connect 2 0 1 0;
+#X connect 4 0 13 0;
+#X connect 5 0 4 0;
+#X connect 6 0 5 1;
+#X connect 11 0 0 0;
+#X connect 13 0 3 0;
+#X connect 13 1 5 0;
+#X restore 195 40 pd playsound2;
+#X floatatom 224 90 5 0 0 0 - cod-scaling-exponent -;
+#X obj 19 278 hsl 128 15 -90 0 0 0 cod-inverse-threshold empty inverse_threshold
+-2 -6 0 8 -88868 -1 -1 7620 1;
+#X text 296 137 but only when "invert" is turned on);
+#X text 224 72 scaling exponent (lower values increase distortion)
+;
+#X text 294 31 <- load and loop two soundfiles to hear effect;
+#X msg 14 123 0.1 0.3 -36;
+#X obj 14 139 unpack f f f;
+#X obj 14 107 loadbang;
+#X text 293 121 inverse threshold (lower values intensify effect;
+#X text 31 316 codepend~ is a classic "block convolution" processor.
+It performs a complex multiply upon the spectra of two input signals.
+Multiplication of spectra can cause significant drops in the amplitude
+of the output signal. The invert message causes codepend~ to perform
+complex division of the input spectra rather than multiplication. This
+can cause huge amplitude gains. A "pad" message is provided to allow
+for empirical amplitude balancing between the normal and "invert" states.
+;
+#X connect 0 0 1 0;
+#X connect 0 0 1 1;
+#X connect 2 0 0 1;
+#X connect 4 0 3 0;
+#X connect 6 0 8 4;
+#X connect 8 0 0 0;
+#X connect 9 0 11 0;
+#X connect 10 0 9 0;
+#X connect 11 0 8 3;
+#X connect 12 0 8 0;
+#X connect 13 0 8 1;
+#X connect 14 0 8 2;
+#X connect 19 0 20 0;
+#X connect 20 0 5 0;
+#X connect 20 1 7 0;
+#X connect 20 2 15 0;
+#X connect 21 0 19 0;

@@ -125,7 +125,7 @@ void leaker_tilde_setup(void)
 void leaker_overlap(t_leaker *x, t_floatarg f)
 {
 int i = (int) f;
-  if(!power_of_two(i)){
+  if(!fftease_power_of_two(i)){
     error("%f is not a power of two",f);
     return;
   }
@@ -137,7 +137,7 @@ void leaker_winfac(t_leaker *x, t_floatarg f)
 {
 int i = (int)f;
 
-  if(!power_of_two(i)){
+  if(!fftease_power_of_two(i)){
     error("%f is not a power of two",f);
     return;
   }
@@ -270,9 +270,9 @@ void *leaker_new(t_symbol *msg, short argc, t_atom *argv)
 void leaker_init(t_leaker *x, short initialized)
 {
 	int i;
-	if(!power_of_two(x->overlap))
+	if(!fftease_power_of_two(x->overlap))
 		x->overlap = 4;
-	if(!power_of_two(x->winfac))
+	if(!fftease_power_of_two(x->winfac))
 		x->winfac = 2;
 	x->N = x->D * x->overlap;
 	x->Nw = x->N * x->winfac;

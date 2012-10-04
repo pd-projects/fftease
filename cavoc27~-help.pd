@@ -1,0 +1,86 @@
+#N canvas 323 304 466 316 10;
+#N canvas 0 22 462 312 cavoc27-block 0;
+#X obj 141 110 cavoc27~ 0.05 200 4 1;
+#X obj 141 61 inlet~;
+#X obj 141 156 outlet~;
+#X obj 255 78 inlet;
+#X obj 142 212 block~ 256;
+#X text 89 187 args: density \, holdtime \, overlap \, winfac;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 3 0 0 0;
+#X restore 146 109 pd cavoc27-block;
+#N canvas 0 22 478 328 messages 0;
+#X obj 111 220 outlet;
+#N canvas 0 22 466 316 rules 0;
+#X obj 15 181 outlet;
+#X msg 2 36 rule 1 0 1 0 0 0 1 0 0 1 2 1 0 2 0 2 0 0 1 0 2 0 2 1 2
+1 1;
+#X msg 9 58 rule 0 2 1 0 0 1 0 0 0 1 1 2 0 1 2 1 1 1 1 0 0 0 1 1 0
+1 1;
+#X msg 28 88 rule 2 2 0 1 0 2 1 1 0 2 1 2 0 1 1 2 0 2 2 1 2 1 1 2 0
+0 0;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X restore 111 134 pd rules;
+#N canvas 520 382 466 316 messages 0;
+#X obj 59 290 outlet;
+#X msg 308 110 interpolate \$1;
+#X obj 308 87 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1 1
+;
+#X msg 199 241 hold_time \$1;
+#X floatatom 199 212 5 0 0 0 - - -;
+#X floatatom 305 211 5 0 0 0 - - -;
+#X msg 305 242 density \$1;
+#X msg 61 37 retune 0.5 2;
+#X obj 89 68 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1 1
+;
+#X msg 89 92 capture_spectrum \$1;
+#X connect 1 0 0 0;
+#X connect 2 0 1 0;
+#X connect 3 0 0 0;
+#X connect 4 0 3 0;
+#X connect 5 0 6 0;
+#X connect 6 0 0 0;
+#X connect 7 0 0 0;
+#X connect 8 0 9 0;
+#X connect 9 0 0 0;
+#X restore 180 134 pd messages;
+#X obj 273 135 fftease-system;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X restore 253 81 pd messages;
+#X obj 146 208 dac~;
+#X msg 287 201 \; pd dsp \$1;
+#X obj 287 176 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 200 147 hsl 128 15 0 0.01 0 0 empty empty output_gain -2 -6
+0 10 -245150 -1 -1 0 1;
+#N canvas 0 22 462 312 example-input-spectrum 0;
+#X obj 114 228 outlet~;
+#X obj 62 124 phasor~ 100;
+#X obj 145 124 phasor~ 125;
+#X obj 231 125 phasor~ 150;
+#X obj 114 175 *~ 0.333;
+#X text 26 89 this gets sampled when "capture_spectrum" is on;
+#X connect 1 0 4 0;
+#X connect 2 0 4 0;
+#X connect 3 0 4 0;
+#X connect 4 0 0 0;
+#X restore 146 48 pd example-input-spectrum;
+#X text 341 82 <- info;
+#X floatatom 197 168 5 0 0 0 - - -;
+#X obj 146 185 *~ 0.001;
+#X text 21 256 27 rule cellular automata (CA). New rules lists have
+27 values (0 \, 1 \, or 2). Start with VERY low gain. See cavoc~ for
+a simpler implementation of CA-generated spectra.;
+#X connect 0 0 9 0;
+#X connect 1 0 0 1;
+#X connect 4 0 3 0;
+#X connect 5 0 8 0;
+#X connect 6 0 0 0;
+#X connect 8 0 9 1;
+#X connect 9 0 2 0;
+#X connect 9 0 2 1;

@@ -1,0 +1,120 @@
+#N canvas 831 409 575 413 10;
+#N canvas 0 22 454 304 morphine-block 0;
+#X obj 48 204 block~ 512;
+#X obj 152 114 morphine~;
+#X obj 152 69 inlet~;
+#X obj 201 71 inlet~;
+#X obj 260 73 inlet;
+#X obj 314 81 inlet;
+#X obj 152 202 outlet~;
+#X connect 1 0 6 0;
+#X connect 2 0 1 0;
+#X connect 3 0 1 1;
+#X connect 4 0 1 2;
+#X connect 5 0 1 0;
+#X restore 149 150 pd morphine-block;
+#N canvas 990 218 520 409 playsound1 0;
+#X obj 31 194 soundfiler;
+#X obj 31 160 openpanel;
+#N canvas 0 22 450 300 graph1 0;
+#X array morphine-sound1 4e+06 float 2;
+#X coords 0 1 4e+06 -1 200 140 1;
+#X restore 237 13 graph;
+#X msg 31 131 bang;
+#X obj 227 284 outlet~;
+#X msg 227 244 bang;
+#X obj 348 228 spigot;
+#X obj 385 205 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1
+1;
+#X msg 31 177 read -resize \$1 morphine-sound1;
+#X obj 227 268 tabplay~ morphine-sound1;
+#X text 316 205 comment;
+#X text 63 132 1 open the sound;
+#X text 109 245 2 then play it;
+#X text 304 190 3 loop if you like;
+#X connect 1 0 8 0;
+#X connect 3 0 1 0;
+#X connect 5 0 9 0;
+#X connect 6 0 5 0;
+#X connect 7 0 6 1;
+#X connect 8 0 0 0;
+#X connect 9 0 4 0;
+#X connect 9 1 6 0;
+#X restore 149 18 pd playsound1;
+#N canvas 990 218 520 409 playsound2 0;
+#X obj 31 194 soundfiler;
+#X obj 31 160 openpanel;
+#N canvas 0 22 450 300 graph1 0;
+#X array morphine-sound2 2.5137e+06 float 2;
+#X coords 0 1 2.5137e+06 -1 200 140 1;
+#X restore 237 13 graph;
+#X msg 31 131 bang;
+#X obj 227 284 outlet~;
+#X msg 227 244 bang;
+#X obj 348 228 spigot;
+#X obj 385 205 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1
+1;
+#X text 316 205 comment;
+#X text 63 132 1 open the sound;
+#X text 109 245 2 then play it;
+#X text 304 190 3 loop if you like;
+#X obj 227 268 tabplay~ morphine-sound2;
+#X msg 31 177 read -resize \$1 morphine-sound2;
+#X connect 1 0 13 0;
+#X connect 3 0 1 0;
+#X connect 5 0 12 0;
+#X connect 6 0 5 0;
+#X connect 7 0 6 1;
+#X connect 12 0 4 0;
+#X connect 12 1 6 0;
+#X connect 13 0 0 0;
+#X restore 187 42 pd playsound2;
+#X floatatom 225 119 5 0 0 0 - - -;
+#X text 223 81 morph index;
+#N canvas 643 138 458 308 messages 0;
+#X obj 100 164 outlet;
+#X msg 100 126 transition \$1;
+#X obj 103 78 hsl 128 15 -30 0 0 0 empty empty empty -2 -6 0 8 -110787
+-1 -1 10900 1;
+#X text 61 49 exponential transition scalar;
+#X floatatom 100 106 5 0 0 0 - - -;
+#X obj 35 26 loadbang;
+#X msg 35 49 -5;
+#X obj 177 148 fftease-system;
+#X connect 1 0 0 0;
+#X connect 2 0 4 0;
+#X connect 4 0 1 0;
+#X connect 5 0 6 0;
+#X connect 6 0 2 0;
+#X connect 7 0 0 0;
+#X restore 295 134 pd messages;
+#X msg 27 233 \; pd dsp \$1;
+#X obj 27 216 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X obj 149 209 *~ 1;
+#X obj 149 261 dac~;
+#X obj 175 170 hsl 128 15 0 1 0 0 empty empty empty -2 -6 0 8 -110787
+-1 -1 6700 1;
+#X floatatom 172 190 5 0 0 0 - - -;
+#X obj 228 97 hsl 128 15 0 1 0 0 empty empty empty -2 -6 0 8 -110787
+-1 -1 9400 1;
+#X text 251 18 <- load sounds here;
+#X text 289 41 <- and here;
+#X text 23 291 morphine~ performs spectral morphing \, creating a new
+spectrum from its two inputs. Values between 0 and 1 are the useful
+range for the morph index. The progression depends upon the exponential
+transition scaling value. Progressively smaller negative values will
+widen the transition space between the two sounds. Larger FFT sizes
+\, such as 4096 \, produce smoother results.;
+#X text 310 170 gain;
+#X connect 0 0 8 0;
+#X connect 1 0 0 0;
+#X connect 2 0 0 1;
+#X connect 3 0 0 2;
+#X connect 5 0 0 3;
+#X connect 7 0 6 0;
+#X connect 8 0 9 0;
+#X connect 8 0 9 1;
+#X connect 10 0 11 0;
+#X connect 11 0 8 1;
+#X connect 12 0 3 0;

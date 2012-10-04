@@ -143,7 +143,7 @@ void residency_meminfo( t_residency *x )
 void residency_overlap(t_residency *x, t_floatarg f)
 {
 	int i = (int) f;
-	if(!power_of_two(i)){
+	if(!fftease_power_of_two(i)){
 		error("%f is not a power of two",f);
 		return;
 	}
@@ -155,7 +155,7 @@ void residency_winfac(t_residency *x, t_floatarg f)
 {
 	int i = (int)f;
 	
-	if(!power_of_two(i)){
+	if(!fftease_power_of_two(i)){
 		error("%f is not a power of two",f);
 		return;
 	}

@@ -182,7 +182,7 @@ void pvharm_assist (t_pvharm *x, void *b, long msg, long arg, char *dst)
 void pvharm_overlap(t_pvharm *x, t_floatarg f)
 {
 	int i = (int) f;
-	if(!power_of_two(i)){
+	if(!fftease_power_of_two(i)){
 		error("%f is not a power of two",f);
 		return;
 	}
@@ -194,7 +194,7 @@ void pvharm_winfac(t_pvharm *x, t_floatarg f)
 {
 	int i = (int)f;
 	
-	if(!power_of_two(i)){
+	if(!fftease_power_of_two(i)){
 		error("%f is not a power of two",f);
 		return;
 	}
@@ -281,9 +281,9 @@ void *pvharm_new(t_symbol *s, int argc, t_atom *argv)
 	if(x->hifreq <50 || x->hifreq> 22050)
 		x->hifreq = 4000;
     
-	if(!power_of_two(x->overlap))
+	if(!fftease_power_of_two(x->overlap))
 		x->overlap = 4;
-	if(!power_of_two(x->winfac))
+	if(!fftease_power_of_two(x->winfac))
 		x->winfac = 2;
 	
 	pvharm_init(x,0);

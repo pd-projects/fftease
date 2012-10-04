@@ -140,7 +140,7 @@ void cavoc_fftinfo( t_cavoc *x )
 
 void cavoc_overlap(t_cavoc *x, t_floatarg f)
 {
-  if(!power_of_two(f)){
+  if(!fftease_power_of_two(f)){
     error("%f is not a power of two",f);
     return;
   }
@@ -150,7 +150,7 @@ void cavoc_overlap(t_cavoc *x, t_floatarg f)
 
 void cavoc_winfac(t_cavoc *x, t_floatarg f)
 {
-	  if(!power_of_two(f)){
+	  if(!fftease_power_of_two(f)){
 	    error("%f is not a power of two",f);
 	    return;
 	  }
@@ -304,9 +304,9 @@ int i;
     x->D = 256;
   if(!x->R)
     x->R = 44100;
-  if(!power_of_two(x->overlap))
+  if(!fftease_power_of_two(x->overlap))
     x->overlap = 4;
-  if(!power_of_two(x->winfac))
+  if(!fftease_power_of_two(x->winfac))
     x->winfac = 1;
   x->N = x->D * x->overlap;
   x->Nw = x->N * x->winfac;

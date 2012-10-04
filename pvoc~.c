@@ -137,7 +137,7 @@ void pvoc_mute(t_pvoc *x, t_floatarg tog)
 void pvoc_overlap(t_pvoc *x, t_floatarg f)
 {
 	int i = (int) f;
-	if(!power_of_two(i)){
+	if(!fftease_power_of_two(i)){
 		error("%f is not a power of two",f);
 		return;
 	}
@@ -149,7 +149,7 @@ void pvoc_winfac(t_pvoc *x, t_floatarg f)
 {
 	int i = (int)f;
 	
-	if(!power_of_two(i)){
+	if(!fftease_power_of_two(i)){
 		error("%f is not a power of two",f);
 		return;
 	}
@@ -255,9 +255,9 @@ void pvoc_init(t_pvoc *x, short initialized)
 		x->D = 256;
 	if(x->P <= 0)
 		x->P = 1.0;
-	if(!power_of_two(x->overlap))
+	if(!fftease_power_of_two(x->overlap))
 		x->overlap = 4;
-	if(!power_of_two(x->winfac))
+	if(!fftease_power_of_two(x->winfac))
 		x->winfac = 2;
 	x->N = x->D * x->overlap;
 	x->Nw = x->N * x->winfac;
@@ -357,10 +357,10 @@ void *pvoc_new(t_symbol *s, int argc, t_atom *argv)
 		x->hifreq = 4000;
     
     
-	if(!power_of_two(x->overlap)){
+	if(!fftease_power_of_two(x->overlap)){
 		x->overlap = 4;
 	}
-	if(!power_of_two(x->winfac)){
+	if(!fftease_power_of_two(x->winfac)){
 		x->winfac = 2;
 	}
 	x->R = sys_getsr();

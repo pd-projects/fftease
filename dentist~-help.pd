@@ -1,0 +1,112 @@
+#N canvas 71 582 526 376 10;
+#N canvas 0 22 482 332 dentist-block 0;
+#X obj 322 150 block~ 256;
+#X obj 185 65 inlet~;
+#X obj 257 67 inlet;
+#X obj 185 174 outlet~;
+#X obj 221 264 snapshot~;
+#X obj 199 229 metro 80;
+#X msg 201 204 1;
+#X obj 310 287 outlet;
+#X obj 84 188 loadbang;
+#X obj 185 112 dentist~ 8000;
+#X obj 271 218 s dentist-stored-teeth;
+#X connect 1 0 9 0;
+#X connect 2 0 9 0;
+#X connect 4 0 7 0;
+#X connect 5 0 4 0;
+#X connect 6 0 5 0;
+#X connect 8 0 6 0;
+#X connect 9 0 3 0;
+#X connect 9 1 4 0;
+#X connect 9 2 10 0;
+#X restore 126 106 pd dentist-block;
+#X msg 263 173 \; pd dsp \$1;
+#X obj 263 147 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 126 180 dac~;
+#N canvas 639 41 688 619 messages 0;
+#X obj 70 447 outlet;
+#X msg 271 50 ramptime \$1;
+#X obj 271 26 nbx 5 14 -1e+37 1e+37 0 0 empty empty empty 0 -6 0 10
+-262144 -1 -1 1000 256;
+#X msg 271 4 1000;
+#X obj 271 -17 loadbang;
+#X msg 186 431 toothcount \$1;
+#X msg 95 234 topfreq \$1;
+#X floatatom 95 212 5 0 0 0 - - -;
+#X text 94 196 highest frequency for bin selection;
+#X text 330 26 interpolation time between distributions;
+#X text 89 57 set distribution;
+#X msg 330 330 interpolate_singles \$1;
+#X obj 330 303 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1
+1;
+#X msg 70 75 scramble;
+#X obj 299 430 hsl 128 15 0 127 0 0 toothcount empty toothcount -2
+-6 0 8 -85171 -1 -1 5300 1;
+#X text 220 448 this sets the number of bins within a fixed random
+distribution. must be greater than zero to hear sound.;
+#X obj 70 487 fftease-system;
+#X msg 186 389 10;
+#N canvas 643 146 878 628 data-storage 0;
+#X obj 260 105 outlet;
+#X msg 260 -66 setstate 30 31 32 33 34 35;
+#X msg 260 -49 setstate 7 9 11 13;
+#X text 250 -92 set a particular bin distribution;
+#X msg 260 -32 setstate 16 20 7 10 24 12 2 23 3;
+#X msg 260 64 showstate;
+#X text 337 64 list current bin selections;
+#X obj 80 140 r dentist-stored-teeth;
+#X obj 80 167 print;
+#X text 128 170 <- replace with [prepend set] -> [messagebox] if you
+have a "prepend" in your Pd distribution. Otherwise we just print to
+the Pd window.;
+#X text 241 141 <- from the dentist~ list outlet;
+#X connect 5 0 0 0;
+#X connect 7 0 8 0;
+#X restore 143 339 pd data-storage;
+#X obj 186 369 loadbang;
+#X obj 186 410 nbx 5 14 -1e+37 1e+37 0 0 empty toothcount empty 0 -6
+0 12 -262144 -1 -1 50 256;
+#X obj 70 17 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X obj 70 36 metro 1000;
+#X text 89 15 do it repeatedly;
+#X text 286 275 turn OFF to make toothcount changes instantaneous;
+#X connect 1 0 0 0;
+#X connect 2 0 1 0;
+#X connect 3 0 2 0;
+#X connect 4 0 3 0;
+#X connect 5 0 0 0;
+#X connect 6 0 0 0;
+#X connect 7 0 6 0;
+#X connect 11 0 0 0;
+#X connect 12 0 11 0;
+#X connect 13 0 0 0;
+#X connect 16 0 0 0;
+#X connect 17 0 20 0;
+#X connect 18 0 0 0;
+#X connect 19 0 17 0;
+#X connect 20 0 5 0;
+#X connect 21 0 22 0;
+#X connect 22 0 13 0;
+#X restore 233 80 pd messages;
+#X obj 126 150 *~ 2;
+#X obj 61 228 hsl 128 15 0 4 0 0 gain empty gain -2 -6 0 8 -208862
+-1 -1 12700 1;
+#X text 316 81 <- open me;
+#X obj 126 66 noise~;
+#X floatatom 233 131 5 0 0 0 - - -;
+#X text 279 131 sync;
+#X text 72 272 dentist~ punches out all but a select set of partials.
+The argument is the maximum frequency from which to select partials.
+;
+#X floatatom 149 130 5 0 0 0 - gain -;
+#X connect 0 0 5 0;
+#X connect 0 1 9 0;
+#X connect 2 0 1 0;
+#X connect 4 0 0 1;
+#X connect 5 0 3 0;
+#X connect 5 0 3 1;
+#X connect 8 0 0 0;
+#X connect 12 0 5 1;

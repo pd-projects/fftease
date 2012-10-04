@@ -110,7 +110,6 @@ void crossx_tilde_setup(void)
   class_addmethod(crossx_class, (t_method)crossx_fftinfo, gensym("fftinfo"), 0);
   class_addmethod(crossx_class, (t_method)crossx_autonorm, gensym("autonorm"), A_DEFFLOAT,0);
    	post("%s %s",OBJECT_NAME,FFTEASE_ANNOUNCEMENT);
-post("padded memory");
 }
 #endif
 
@@ -141,7 +140,7 @@ void crossx_assist (t_crossx *x, void *b, long msg, long arg, char *dst)
 
 void crossx_overlap(t_crossx *x, t_floatarg o)
 {
-  if(!power_of_two((int)o)){
+  if(!fftease_power_of_two((int)o)){
     error("%f is not a power of two",o);
     return;
   }
@@ -151,7 +150,7 @@ void crossx_overlap(t_crossx *x, t_floatarg o)
 
 void crossx_winfac(t_crossx *x, t_floatarg f)
 {
-  if(!power_of_two((int)f)){
+  if(!fftease_power_of_two((int)f)){
     error("%f is not a power of two",f);
     return;
   }

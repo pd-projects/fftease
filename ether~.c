@@ -160,7 +160,7 @@ void ether_free(t_ether *x)
 void ether_overlap(t_ether *x, t_floatarg df)
 {
 int o = (int)df;
-  if(!power_of_two(o)){
+  if(!fftease_power_of_two(o)){
     error("%d is not a power of two",o);
     return;
   }
@@ -171,7 +171,7 @@ int o = (int)df;
 void ether_winfac(t_ether *x, t_floatarg f)
 {
 int wf = (int)f;
-  if(!power_of_two(wf)){
+  if(!fftease_power_of_two(wf)){
     error("%f is not a power of two",f);
     return;
   }
@@ -209,10 +209,10 @@ void *ether_new(t_symbol *s, int argc, t_atom *argv)
 	
   x->overlap = atom_getfloatarg(0,argc,argv);
   x->winfac = atom_getfloatarg(1,argc,argv);
-  if(!power_of_two(x->overlap)){
+  if(!fftease_power_of_two(x->overlap)){
     x->overlap = 4;
   }
-  if(!power_of_two(x->winfac)){
+  if(!fftease_power_of_two(x->winfac)){
     x->winfac = 1;
   }
   x->vs = sys_getblksize();

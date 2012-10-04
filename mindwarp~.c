@@ -192,10 +192,10 @@ void *mindwarp_new(t_symbol *s, int argc, t_atom *argv)
   x->overlap = atom_getfloatarg(2,argc,argv);
   x->winfac = atom_getfloatarg(3,argc,argv);
 
-  if(!power_of_two(x->overlap)){
+  if(!fftease_power_of_two(x->overlap)){
     x->overlap = 4;
   }
-  if(!power_of_two(x->winfac)){
+  if(!fftease_power_of_two(x->winfac)){
     x->winfac = 1;
   }
   
@@ -584,7 +584,7 @@ void mindwarp_mute(t_mindwarp *x, t_floatarg toggle)
 
 void mindwarp_overlap(t_mindwarp *x, t_floatarg o)
 {
-  if(!power_of_two((int)o)){
+  if(!fftease_power_of_two((int)o)){
     error("%f is not a power of two",o);
     return;
   }
@@ -594,7 +594,7 @@ void mindwarp_overlap(t_mindwarp *x, t_floatarg o)
 
 void mindwarp_winfac(t_mindwarp *x, t_floatarg f)
 {
-  if(!power_of_two((int)f)){
+  if(!fftease_power_of_two((int)f)){
     error("%f is not a power of two",f);
     return;
   }

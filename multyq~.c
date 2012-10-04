@@ -152,7 +152,7 @@ void multyq_free(t_multyq *x)
 void multyq_overlap(t_multyq *x, t_floatarg f)
 {
 int i = (int) f;
-  if(!power_of_two(i)){
+  if(!fftease_power_of_two(i)){
     error("%f is not a power of two",f);
     return;
   }
@@ -164,7 +164,7 @@ void multyq_winfac(t_multyq *x, t_floatarg f)
 {
 int i = (int)f;
 
-  if(!power_of_two(i)){
+  if(!fftease_power_of_two(i)){
     error("%f is not a power of two",f);
     return;
   }
@@ -201,9 +201,9 @@ int i;
   
   x->overlap = atom_getfloatarg(0,argc,argv);
   x->winfac = atom_getfloatarg(1,argc,argv);
-  if(!power_of_two(x->overlap))
+  if(!fftease_power_of_two(x->overlap))
     x->overlap = 4;
-  if(!power_of_two(x->winfac))
+  if(!fftease_power_of_two(x->winfac))
     x->winfac = 2;
 
   x->D = sys_getblksize();

@@ -1,0 +1,130 @@
+#N canvas 606 96 689 455 10;
+#X obj 167 237 *~ 1;
+#X obj 167 289 dac~;
+#X floatatom 190 218 5 0 0 0 - centerring-gain -;
+#X msg 18 330 \; pd dsp \$1;
+#X obj 18 313 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X obj 17 207 hsl 128 15 0 1.5 0 0 centerring-gain empty output_gain
+-2 -6 0 8 -171124 -1 -1 847 1;
+#N canvas 785 535 531 366 messages 0;
+#X obj 132 268 outlet;
+#X text 291 182 turn on invert;
+#X obj 270 183 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X msg 270 205 invert \$1;
+#X obj 132 105 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X msg 132 127 swapphase \$1;
+#X obj 182 172 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X msg 182 194 rms \$1;
+#X obj 311 252 fftease-system;
+#X connect 2 0 3 0;
+#X connect 3 0 0 0;
+#X connect 4 0 5 0;
+#X connect 5 0 0 0;
+#X connect 6 0 7 0;
+#X connect 7 0 0 0;
+#X connect 8 0 0 0;
+#X restore 448 167 pd messages;
+#X floatatom 238 123 5 0 0 0 - vac-compositing-threshold -;
+#N canvas 990 218 520 409 playsound1 0;
+#X obj 31 194 soundfiler;
+#X obj 31 160 openpanel;
+#N canvas 0 22 450 300 graph1 0;
+#X array vacancy-sound1 1.09357e+06 float 2;
+#X coords 0 1 1.09357e+06 -1 200 140 1;
+#X restore 237 13 graph;
+#X msg 31 131 bang;
+#X obj 227 284 outlet~;
+#X msg 227 244 bang;
+#X obj 348 228 spigot;
+#X obj 385 205 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X text 63 132 open the sound;
+#X text 133 244 then play it;
+#X text 304 190 loop if you like;
+#X text 316 205 comment;
+#X msg 31 177 read -resize \$1 vacancy-sound1;
+#X obj 227 268 tabplay~ vacancy-sound1;
+#X connect 1 0 12 0;
+#X connect 3 0 1 0;
+#X connect 5 0 13 0;
+#X connect 6 0 5 0;
+#X connect 7 0 6 1;
+#X connect 12 0 0 0;
+#X connect 13 0 4 0;
+#X connect 13 1 6 0;
+#X restore 167 22 pd playsound1;
+#N canvas 990 218 524 413 playsound2 0;
+#X obj 31 194 soundfiler;
+#X obj 31 160 openpanel;
+#X msg 31 131 bang;
+#X obj 227 284 outlet~;
+#X msg 227 244 bang;
+#X obj 348 228 spigot;
+#X obj 385 205 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X text 63 132 open the sound;
+#X text 133 244 then play it;
+#X text 304 190 loop if you like;
+#X text 316 205 comment;
+#N canvas 0 22 450 300 graph2 0;
+#X array vacancy-sound2 1.764e+06 float 2;
+#X coords 0 1 1.764e+06 -1 200 140 1;
+#X restore 216 15 graph;
+#X msg 31 177 read -resize \$1 vacancy-sound2;
+#X obj 227 268 tabplay~ vacancy-sound2;
+#X connect 1 0 12 0;
+#X connect 2 0 1 0;
+#X connect 4 0 13 0;
+#X connect 5 0 4 0;
+#X connect 6 0 5 1;
+#X connect 12 0 0 0;
+#X connect 13 0 3 0;
+#X connect 13 1 5 0;
+#X restore 202 45 pd playsound2;
+#X text 294 31 <- load and loop two soundfiles to hear effect;
+#X obj 14 107 loadbang;
+#N canvas 376 316 482 332 vacancy-block 0;
+#X obj 163 185 outlet~;
+#X obj 163 38 inlet~;
+#X obj 269 107 inlet;
+#X obj 214 87 inlet;
+#X obj 188 64 inlet~;
+#X obj 233 219 block~ 512;
+#X obj 163 128 vacancy~;
+#X connect 1 0 6 0;
+#X connect 2 0 6 0;
+#X connect 3 0 6 2;
+#X connect 4 0 6 1;
+#X connect 6 0 0 0;
+#X restore 167 183 pd vacancy-block;
+#X text 280 124 compositing threshold;
+#X obj 16 242 hsl 128 15 -90 90 0 0 vac-compositing-threshold empty
+compositing_threshold -2 -6 0 8 -171124 -1 -1 3810 1;
+#X text 221 262 vacancy~ performs spectral compositing. The threshold
+controls the compositing and is specified in dB. Useful values lie
+in the range from -90 dB to 90 dB. Threshold inversion is available
+via the invert message. The threshold can also track the current RMS
+value of of the signal. In RMS tracking mode \, the useful threshold
+range will be somewhat different depending upon the character of the
+input signals. Phases will be derived from the left input unless phase
+swapping is specified. In this case phases will be taken from the right
+input signal when the threshold test is true.;
+#X msg 14 123 0.1 -36;
+#X obj 14 139 unpack f f;
+#X connect 0 0 1 0;
+#X connect 0 0 1 1;
+#X connect 2 0 0 1;
+#X connect 4 0 3 0;
+#X connect 6 0 12 3;
+#X connect 7 0 12 2;
+#X connect 8 0 12 0;
+#X connect 9 0 12 1;
+#X connect 11 0 16 0;
+#X connect 12 0 0 0;
+#X connect 16 0 17 0;
+#X connect 17 0 5 0;
+#X connect 17 1 14 0;

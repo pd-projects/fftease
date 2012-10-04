@@ -1,0 +1,168 @@
+#N canvas 61 22 766 791 10;
+#X obj 384 435 dac~;
+#X floatatom 124 121 5 0.1 3 2 transpose transpose -;
+#X msg 500 486 \; pd dsp \$1;
+#X obj 500 467 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 85 512 hsl 128 15 0.1 4 0 0 empty empty empty -2 -6 0 8 -261285
+-1 -1 1600 1;
+#N canvas 0 22 494 344 messages 0;
+#X obj 154 185 outlet;
+#X obj 154 136 fftease-system;
+#X connect 1 0 0 0;
+#X restore 210 338 pd messages;
+#X obj 227 512 hsl 128 15 0 0.01 0 0 empty empty empty -2 -6 0 8 -227712
+-1 -1 0 1;
+#X obj 224 538 s thresh;
+#X obj 82 538 s transpose;
+#X obj 82 460 loadbang;
+#X msg 82 491 1;
+#N canvas 0 22 550 400 mindwarp-block 0;
+#X obj 27 158 outlet~;
+#X obj 27 42 inlet~;
+#X obj 73 14 inlet;
+#X obj 120 49 inlet;
+#X obj 213 69 inlet;
+#X text 107 105 args: warp factor \, shape width \, overlap \, winfac
+;
+#X obj 27 85 mindwarp~ 1 16;
+#X obj 28 183 block~ 256;
+#X connect 1 0 6 0;
+#X connect 2 0 6 1;
+#X connect 3 0 6 2;
+#X connect 4 0 6 0;
+#X connect 6 0 0 0;
+#X restore 96 364 pd mindwarp-block;
+#N canvas 1171 182 470 320 pvoc-block 0;
+#X obj 102 141 pvoc~;
+#X obj 102 199 outlet~;
+#X obj 102 50 inlet~;
+#X obj 117 94 inlet;
+#X obj 233 94 inlet;
+#X obj 270 115 block~ 256;
+#X obj 164 95 inlet;
+#X connect 0 0 1 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 1;
+#X connect 4 0 0 0;
+#X connect 6 0 0 2;
+#X restore 96 194 pd pvoc-block;
+#X text 176 274 warp factor;
+#X floatatom 172 316 5 1 16 0 - - -;
+#N canvas 990 218 520 409 playsound 0;
+#X obj 31 194 soundfiler;
+#X obj 31 160 openpanel;
+#X msg 31 131 bang;
+#X obj 227 284 outlet~;
+#X msg 227 244 bang;
+#X obj 348 228 spigot;
+#X obj 385 205 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1
+1;
+#X text 63 132 open the sound;
+#X text 133 244 then play it;
+#X text 304 190 loop if you like;
+#X text 316 205 comment;
+#N canvas 0 22 450 300 graph3 0;
+#X array mindwarp-sound1 302338 float 2;
+#X coords 0 1 302337 -1 200 140 1;
+#X restore 231 21 graph;
+#X obj 227 268 tabplay~ mindwarp-sound1;
+#X msg 31 177 read -resize \$1 mindwarp-sound1;
+#X connect 1 0 13 0;
+#X connect 2 0 1 0;
+#X connect 4 0 12 0;
+#X connect 5 0 4 0;
+#X connect 6 0 5 1;
+#X connect 12 0 3 0;
+#X connect 12 1 5 0;
+#X connect 13 0 0 0;
+#X restore 96 38 pd playsound;
+#N canvas 0 22 494 344 messages 0;
+#X obj 154 185 outlet;
+#X obj 302 145 fftease-system;
+#X floatatom 65 105 5 0 0 0 - - -;
+#X msg 65 126 highfreq \$1;
+#X floatatom 201 94 5 0 0 0 - - -;
+#X msg 201 112 lowfreq \$1;
+#X msg 65 83 8000;
+#X obj 65 61 loadbang;
+#X msg 201 73 0;
+#X obj 201 51 loadbang;
+#X connect 1 0 0 0;
+#X connect 2 0 3 0;
+#X connect 3 0 0 0;
+#X connect 4 0 5 0;
+#X connect 5 0 0 0;
+#X connect 6 0 2 0;
+#X connect 7 0 6 0;
+#X connect 8 0 4 0;
+#X connect 9 0 8 0;
+#X restore 182 174 pd messages;
+#X msg 384 314 set mindwarp-raw;
+#X obj 384 409 receive~ mindwarp-warped;
+#X msg 384 333 set mindwarp-pvoc;
+#X msg 384 352 set mindwarp-warped;
+#X obj 129 396 send~ mindwarp-warped;
+#X obj 119 228 send~ mindwarp-pvoc;
+#X obj 108 73 send~ mindwarp-raw;
+#X text 380 290 select listening point:;
+#X text 503 314 original sound;
+#X text 511 335 pvoc transposed;
+#X text 523 352 post-pvoc formant-adjusted;
+#X text 82 577 mindwarp~ performs spectral envelope warping. It can
+be used to correct for the formant shifting effects of pitch-scaling.
+The warp factor is tuned to warp spectra to compensate for directly
+corresponding pitch-scaling values. For example \, if you have pitch-scaled
+a signal by a factor of two \, increasing its frequency content by
+an octave \, by providing mindwarp~ with a warp factor of 2 and the
+pitch-scaled signal \, mindwarp~ will restore the spectral formant
+of the signal to an estimation of the shape present in the original
+unscaled signal. Currently \, warp factor values are restricted to
+the range [1/16 ... 16.]. mindwarp~ utilizes frequency shaping to perform
+its duty. It can be fun to decorrelate the warp factor from the transposition
+factor.;
+#X text 190 32 <- first load a soundfile here;
+#X floatatom 153 156 5 0 0 0 - - -;
+#X floatatom 134 275 5 0.1 20 0 - - -;
+#X obj 134 252 r transpose;
+#X text 214 316 shape width;
+#X obj 153 137 r thresh;
+#X msg 224 476 1e-05;
+#X obj 172 296 r shapewidth;
+#N canvas 0 22 454 304 init 0;
+#X obj 95 88 loadbang;
+#X msg 95 116 16;
+#X obj 95 155 s shapewidth;
+#X obj 198 155 s transpose;
+#X msg 198 120 1;
+#X connect 0 0 1 0;
+#X connect 0 0 4 0;
+#X connect 1 0 2 0;
+#X connect 4 0 3 0;
+#X restore 501 518 pd init;
+#X connect 1 0 12 1;
+#X connect 3 0 2 0;
+#X connect 4 0 8 0;
+#X connect 5 0 11 3;
+#X connect 6 0 7 0;
+#X connect 9 0 10 0;
+#X connect 9 0 35 0;
+#X connect 10 0 4 0;
+#X connect 11 0 21 0;
+#X connect 12 0 11 0;
+#X connect 12 0 22 0;
+#X connect 14 0 11 2;
+#X connect 15 0 12 0;
+#X connect 15 0 23 0;
+#X connect 16 0 12 3;
+#X connect 17 0 18 0;
+#X connect 18 0 0 0;
+#X connect 18 0 0 1;
+#X connect 19 0 18 0;
+#X connect 20 0 18 0;
+#X connect 30 0 12 2;
+#X connect 31 0 11 1;
+#X connect 32 0 31 0;
+#X connect 34 0 30 0;
+#X connect 35 0 6 0;
+#X connect 36 0 14 0;

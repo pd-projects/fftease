@@ -121,7 +121,7 @@ void thresher_tilde_setup(void)
 void thresher_overlap(t_thresher *x, t_floatarg f)
 {
 	int i = (int) f;
-	if(!power_of_two(i)){
+	if(!fftease_power_of_two(i)){
 		error("%f is not a power of two",f);
 		return;
 	}
@@ -133,7 +133,7 @@ void thresher_winfac(t_thresher *x, t_floatarg f)
 {
 	int i = (int)f;
 	
-	if(!power_of_two(i)){
+	if(!fftease_power_of_two(i)){
 		error("%f is not a power of two",f);
 		return;
 	}
@@ -218,6 +218,10 @@ void *thresher_new(t_symbol *s, int argc, t_atom *argv)
 	x->overlap = atom_getfloatarg( 2, argc, argv );
 	x->winfac = atom_getfloatarg( 3, argc, argv );
 	
+//	post("thresh %f damper %f overlap %d winfac %d", x->move_threshold, x->damping_factor, x->overlap, x->winfac);
+
+	/* if overlap is zero we crash so should protect against bad input parameters*/
+
 	x->D = sys_getblksize();
 	x->R = sys_getsr();
 	
@@ -233,9 +237,9 @@ void thresher_init(t_thresher *x, short initialized)
 		x->D = 256;
 	if(!x->R)
 		x->R = 44100;
-	if(!power_of_two(x->overlap))
+	if(!fftease_power_of_two(x->overlap) )
 		x->overlap = 4;
-	if(!power_of_two(x->winfac))
+	if(!fftease_power_of_two(x->winfac) )
 		x->winfac = 1;
 	x->N = x->D * x->overlap;
 	x->Nw = x->N * x->winfac;
@@ -254,8 +258,11 @@ void thresher_init(t_thresher *x, short initialized)
 		if(!x->damping_factor){
 			x->damping_factor = .95;
 		}
+		if(!x->move_threshold){
+			x->move_threshold = .00001 ;
+		}
 		x->first_frame = 1;
-		x->move_threshold = .00001 ;
+		
 		x->max_hold_time = DEFAULT_HOLD ;
 		x->max_hold_frames = x->max_hold_time / x->tadv;
 		x->c_fundamental =  (float) x->R/( (x->N2)<<1 );

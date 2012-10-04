@@ -216,7 +216,7 @@ void shapee_mute(t_shapee *x, t_floatarg state)
 void shapee_overlap(t_shapee *x, t_floatarg o)
 {
 int test = (int) o;
-	if(!power_of_two(test)){
+	if(!fftease_power_of_two(test)){
 		post("%d is not a power of two",test);
 		return;
 	}
@@ -227,7 +227,7 @@ int test = (int) o;
 void shapee_winfac(t_shapee *x, t_floatarg wf)
 {
 int test = (int) wf;
-if(!power_of_two(test)){
+if(!fftease_power_of_two(test)){
 		post("%d is not a power of two",test);
 		return;
 }

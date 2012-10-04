@@ -201,10 +201,10 @@ void *morphine_new(t_symbol *s, int argc, t_atom *argv)
   x->overlap = atom_getfloatarg(1,argc,argv);
   x->winfac = atom_getfloatarg(2,argc,argv);
 
-  if(!power_of_two(x->overlap)){
+  if(!fftease_power_of_two(x->overlap)){
     x->overlap = 4;
   }
-  if(!power_of_two(x->winfac)){
+  if(!fftease_power_of_two(x->winfac)){
     x->winfac = 1;
   }
   		
@@ -529,7 +529,7 @@ void morphine_overlap(t_morphine *x, t_floatarg df)
 {
 int o = (int)df;
 
-  if(!power_of_two(o)){
+  if(!fftease_power_of_two(o)){
     error("%d is not a power of two",o);
     return;
   }
@@ -540,7 +540,7 @@ int o = (int)df;
 void morphine_winfac(t_morphine *x, t_floatarg df)
 {
 int wf = (int) df;
-  if(!power_of_two(wf)){
+  if(!fftease_power_of_two(wf)){
     error("%d is not a power of two",wf);
     return;
   }

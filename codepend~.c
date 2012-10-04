@@ -157,7 +157,7 @@ void codepend_mute(t_codepend *x, t_floatarg toggle)
 
 void codepend_overlap(t_codepend *x, t_floatarg o)
 {
-  if(!power_of_two((int)o)){
+  if(!fftease_power_of_two((int)o)){
     error("%f is not a power of two",o);
     return;
   }
@@ -167,7 +167,7 @@ void codepend_overlap(t_codepend *x, t_floatarg o)
 
 void codepend_winfac(t_codepend *x, t_floatarg f)
 {
-  if(!power_of_two((int)f)){
+  if(!fftease_power_of_two((int)f)){
     error("%f is not a power of two",f);
     return;
   }
@@ -277,10 +277,10 @@ void *codepend_new(t_symbol *s, int argc, t_atom *argv)
   if(x->exponent < 0.25)
     x->exponent = 0.25;
 
-  if(!power_of_two(x->overlap)){
+  if(!fftease_power_of_two(x->overlap)){
     x->overlap = 4;
   }
-  if(!power_of_two(x->winfac)){
+  if(!fftease_power_of_two(x->winfac)){
     x->winfac = 1;
   }
   		

@@ -1,0 +1,77 @@
+#N canvas 281 24 648 434 10;
+#N canvas 376 316 462 312 centerring-block 0;
+#X obj 163 128 centerring~;
+#X obj 233 219 block~ 256;
+#X obj 152 180 outlet~;
+#X obj 141 63 inlet~;
+#X obj 337 89 inlet;
+#X obj 195 67 inlet;
+#X obj 242 66 inlet;
+#X obj 290 71 inlet;
+#X connect 0 0 2 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 0;
+#X connect 5 0 0 1;
+#X connect 6 0 0 2;
+#X connect 7 0 0 3;
+#X restore 167 141 pd centerring-block;
+#X obj 167 195 *~ 1;
+#X obj 167 230 dac~;
+#X floatatom 190 176 5 0 0 0 - centerring-gain -;
+#X msg 333 242 \; pd dsp \$1;
+#X obj 333 225 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X obj 18 207 hsl 128 15 0 0.1 0 0 centerring-gain empty output_gain
+-2 -6 0 8 -79789 -1 -1 800 1;
+#X obj 81 51 phasor~ 150;
+#N canvas 0 22 474 324 messages 0;
+#X obj 159 192 outlet;
+#X msg 154 138 zerophases;
+#X msg 263 138 randphases;
+#X msg 71 101 seed \$1;
+#X floatatom 70 71 5 0 0 0 - - -;
+#X msg 117 65 1974;
+#X obj 320 168 fftease-system;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 3 0;
+#X connect 5 0 3 0;
+#X connect 6 0 0 0;
+#X restore 319 108 pd messages;
+#X floatatom 193 54 5 0 0 0 - cr-base-frequency -;
+#X obj 18 240 hsl 128 15 0.1 20 0 0 cr-base-frequency empty base_frequency
+-2 -6 0 8 -79789 -1 -1 900 1;
+#X floatatom 251 59 5 0 0 0 - cr-bandwidth -;
+#X obj 16 271 hsl 128 15 0.1 20 0 0 cr-bandwidth empty bandwidth -2
+-6 0 8 -79789 -1 -1 7700 1;
+#X floatatom 329 42 5 0 0 0 - cr-freq-constant -;
+#X obj 15 305 hsl 128 15 0.1 20 0 0 cr-freq-constant empty frequency_constant
+-2 -6 0 8 -79789 -1 -1 6300 1;
+#X obj 9 99 loadbang;
+#X msg 9 125 0.1 1 0.15 1;
+#X obj 9 157 unpack f f f f;
+#X text 171 294 centerring~ performs frequency independent amplitude
+modulation upon the spectral magnitudes of input signals. The effect
+is somewhat akin to flanging. The base frequency is used to derive
+the frequency of an oscillator associated with each frequency band.
+The frequency bandwidth and constant control the deviation of a particular
+frequency band's modulation oscillator frequency.;
+#X floatatom 81 30 5 0 0 0 - - -;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 1 0 2 1;
+#X connect 3 0 1 1;
+#X connect 5 0 4 0;
+#X connect 7 0 0 0;
+#X connect 8 0 0 4;
+#X connect 9 0 0 1;
+#X connect 11 0 0 2;
+#X connect 13 0 0 3;
+#X connect 15 0 16 0;
+#X connect 16 0 17 0;
+#X connect 17 0 6 0;
+#X connect 17 1 10 0;
+#X connect 17 2 12 0;
+#X connect 17 3 14 0;
+#X connect 19 0 7 0;

@@ -199,10 +199,10 @@ void disarrain_init(t_disarrain *x, short initialized)
   int i;
   float curfreq;
 
-  if(!power_of_two(x->winfac)){
+  if(!fftease_power_of_two(x->winfac)){
     x->winfac = 1;
   }
-  if(!power_of_two(x->overlap)){
+  if(!fftease_power_of_two(x->overlap)){
     x->overlap = 4;
   }	
   x->N = x->D * x->overlap;
@@ -395,7 +395,7 @@ void disarrain_bypass(t_disarrain *x, t_floatarg toggle)
 void disarrain_overlap(t_disarrain *x, t_floatarg df)
 {
 int o = (int)df;
-  if(!power_of_two(o)){
+  if(!fftease_power_of_two(o)){
     error("%d is not a power of two",o);
     return;
   }
@@ -406,7 +406,7 @@ int o = (int)df;
 void disarrain_winfac(t_disarrain *x, t_floatarg f)
 {
 int wf = (int)f;
-  if(!power_of_two(wf)){
+  if(!fftease_power_of_two(wf)){
     error("%f is not a power of two",wf);
     return;
   }

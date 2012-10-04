@@ -224,7 +224,7 @@ void presidency_calc_bins_from_freqs(t_presidency *x)
 void presidency_overlap(t_presidency *x, t_floatarg f)
 {
 int i = (int) f;
-  if(!power_of_two(i)){
+  if(!fftease_power_of_two(i)){
     error("%f is not a power of two",f);
     return;
   }
@@ -236,7 +236,7 @@ void presidency_winfac(t_presidency *x, t_floatarg f)
 {
 int i = (int)f;
 
-  if(!power_of_two(i)){
+  if(!fftease_power_of_two(i)){
     error("%f is not a power of two",f);
     return;
   }
@@ -309,9 +309,9 @@ void presidency_init(t_presidency *x, short initialized)
 	x->lock = 1;
 	x->virgin = 1;
 	
-	if(!power_of_two(x->winfac))
+	if(!fftease_power_of_two(x->winfac))
 		x->winfac = 1;
-	if(!power_of_two(x->overlap))
+	if(!fftease_power_of_two(x->overlap))
 		x->overlap = 4;
 	if(!x->R)
 		x->R = 44100;

@@ -154,7 +154,7 @@ void reanimator_tilde_setup(void)
 void reanimator_overlap(t_reanimator *x, t_floatarg f)
 {
 	int i = (int) f;
-	if(!power_of_two(i)){
+	if(!fftease_power_of_two(i)){
 		error("%f is not a power of two",f);
 		return;
 	}
@@ -166,7 +166,7 @@ void reanimator_winfac(t_reanimator *x, t_floatarg f)
 {
 	int i = (int)f;
 	
-	if(!power_of_two(i)){
+	if(!fftease_power_of_two(i)){
 		error("%f is not a power of two",f);
 		return;
 	}

@@ -1,0 +1,88 @@
+#N canvas 153 350 531 534 10;
+#N canvas 0 22 462 312 scrape-block 0;
+#X obj 134 142 scrape~ 1000 4000 0.001 0.05 0.1 4 1;
+#X obj 126 237 block~ 256;
+#X obj 134 188 outlet~;
+#X obj 134 74 inlet~;
+#X obj 198 84 inlet;
+#X obj 239 84 inlet;
+#X obj 282 84 inlet;
+#X obj 324 85 inlet;
+#X obj 366 85 inlet;
+#X obj 421 94 inlet;
+#X connect 0 0 2 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 1;
+#X connect 5 0 0 2;
+#X connect 6 0 0 3;
+#X connect 7 0 0 4;
+#X connect 8 0 0 5;
+#X connect 9 0 0 0;
+#X restore 61 203 pd scrape-block;
+#N canvas 0 22 470 320 messages 0;
+#X obj 200 244 outlet;
+#X obj 200 212 fftease-system;
+#X connect 1 0 0 0;
+#X restore 161 182 pd messages;
+#N canvas 0 22 470 320 playsound 0;
+#X obj 31 194 soundfiler;
+#X obj 31 160 openpanel;
+#N canvas 0 22 450 300 graph1 0;
+#X array scrape-sound1 4e+06 float 2;
+#X coords 0 1 4e+06 -1 200 140 1;
+#X restore 237 13 graph;
+#X msg 31 131 bang;
+#X obj 227 284 outlet~;
+#X msg 227 244 bang;
+#X obj 348 228 spigot;
+#X obj 385 205 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1
+1;
+#X text 133 244 then play it;
+#X text 304 190 loop if you like;
+#X text 63 132 open the sound;
+#X msg 31 177 read -resize \$1 scrape-sound1;
+#X obj 227 268 tabplay~ scrape-sound1;
+#X connect 1 0 11 0;
+#X connect 3 0 1 0;
+#X connect 5 0 12 0;
+#X connect 6 0 5 0;
+#X connect 7 0 6 1;
+#X connect 11 0 0 0;
+#X connect 12 0 4 0;
+#X connect 12 1 6 0;
+#X restore 61 22 pd playsound;
+#X floatatom 77 53 5 0 0 1 knee - -;
+#X floatatom 94 75 5 0 0 1 cutoff - -;
+#X floatatom 111 97 5 0 0 1 threshold1 - -;
+#X floatatom 127 115 5 0 0 1 threshold2 - -;
+#X floatatom 144 135 5 0 0 1 weak_bin_multiplier - -;
+#X obj 61 240 dac~;
+#X msg 223 235 \; pd dsp \$1;
+#X obj 223 215 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0
+1;
+#X msg 287 14 1000 4000 0.001 0.05 0.1;
+#X obj 287 37 unpack f f f f f;
+#X obj 287 -7 loadbang;
+#X text 54 284 scrape~ is like drown~ except that it only operates
+between the frequencies specified by knee and cutoff to the Nyquist.
+Between knee and cutoff is a transition range to gradually increase
+the noise reduction. This is good if you just want to scrape some noise
+off the upper frequency range without affecting lower parts of the
+spectrum (much).;
+#X connect 0 0 8 0;
+#X connect 0 0 8 1;
+#X connect 1 0 0 6;
+#X connect 2 0 0 0;
+#X connect 3 0 0 1;
+#X connect 4 0 0 2;
+#X connect 5 0 0 3;
+#X connect 6 0 0 4;
+#X connect 7 0 0 5;
+#X connect 10 0 9 0;
+#X connect 11 0 12 0;
+#X connect 12 0 3 0;
+#X connect 12 1 4 0;
+#X connect 12 2 5 0;
+#X connect 12 3 6 0;
+#X connect 12 4 7 0;
+#X connect 13 0 11 0;

@@ -153,7 +153,7 @@ void taint_mute(t_taint *x, t_floatarg toggle)
 
 void taint_overlap(t_taint *x, t_floatarg o)
 {
-	if(!power_of_two(o)){
+	if(!fftease_power_of_two(o)){
 		error("%f is not a power of two",o);
 		return;
 	}
@@ -163,7 +163,7 @@ void taint_overlap(t_taint *x, t_floatarg o)
 
 void taint_winfac(t_taint *x, t_floatarg f)
 {
-	if(!power_of_two(f)){
+	if(!fftease_power_of_two(f)){
 		error("%f is not a power of two",f);
 		return;
 	}
@@ -274,10 +274,10 @@ void *taint_new(t_symbol *s, int argc, t_atom *argv)
 	if(x->exponent < 0.25)
 		x->exponent = 0.25;
 	
-	if(!power_of_two(x->overlap)){
+	if(!fftease_power_of_two(x->overlap)){
 		x->overlap = 4;
 	}
-	if(!power_of_two(x->winfac)){
+	if(!fftease_power_of_two(x->winfac)){
 		x->winfac = 1;
 	}
   		

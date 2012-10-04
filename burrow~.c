@@ -165,7 +165,7 @@ void burrow_mute(t_burrow *x, t_floatarg toggle)
 
 void burrow_overlap(t_burrow *x, t_floatarg o)
 {
-  if(!power_of_two(o)){
+  if(!fftease_power_of_two(o)){
 	error("%f is not a power of two",o);
     return;
   }
@@ -175,7 +175,7 @@ void burrow_overlap(t_burrow *x, t_floatarg o)
 
 void burrow_winfac(t_burrow *x, t_floatarg f)
 {
-  if(!power_of_two(f)){
+  if(!fftease_power_of_two(f)){
     error("%f is not a power of two",f);
     return;
   }
@@ -275,10 +275,10 @@ void *burrow_new(t_symbol *s, int argc, t_atom *argv)
   x->overlap = atom_getfloatarg(2,argc,argv);
   x->winfac = atom_getfloatarg(3,argc,argv);
   
-  if(!power_of_two(x->overlap)){
+  if(!fftease_power_of_two(x->overlap)){
 	x->overlap = 4;
   }
-  if(!power_of_two(x->winfac)){
+  if(!fftease_power_of_two(x->winfac)){
 	x->winfac = 1;
   }
   if(x->threshold > 1.0 || x->threshold < 0.0){

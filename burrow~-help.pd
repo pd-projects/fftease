@@ -1,0 +1,129 @@
+#N canvas 579 109 517 612 10;
+#N canvas 590 312 458 308 burrow-block 0;
+#X obj 160 154 burrow~;
+#X obj 160 39 inlet~;
+#X obj 174 72 inlet~;
+#X obj 189 99 inlet;
+#X obj 204 120 inlet;
+#X obj 160 209 outlet~;
+#X obj 270 186 block~ 256;
+#X obj 303 124 inlet;
+#X connect 0 0 5 0;
+#X connect 1 0 0 0;
+#X connect 2 0 0 1;
+#X connect 3 0 0 2;
+#X connect 4 0 0 3;
+#X connect 7 0 0 0;
+#X restore 93 227 pd burrow-block;
+#X obj 93 42 noise~;
+#X obj 118 82 noise~;
+#X obj 118 129 bp~ 500 50;
+#X text 90 25 sound to filter;
+#X text 115 66 sound to provide filter shape;
+#X obj 93 269 *~ 1;
+#X obj 93 304 dac~;
+#X msg 352 411 \; pd dsp \$1;
+#X obj 352 394 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1
+1;
+#X floatatom 116 251 5 0 0 0 - burrow-gain -;
+#X obj 151 313 hsl 128 15 0 0.2 0 0 burrow-gain empty output_gain -2
+-6 0 8 -182539 -1 -1 3175 1;
+#X floatatom 143 150 5 0 0 0 - burrow-threshold -;
+#X floatatom 168 170 5 0 0 0 - burrow-multiplier -;
+#N canvas 0 22 505 427 messages 0;
+#X obj 162 351 outlet;
+#X msg 162 253 invert \$1;
+#X obj 162 227 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1
+1;
+#X text 59 49 When invert is turned on \, the spectrum of the filter
+sound becomes the shape of the filter. Although this might seem more
+intuitive \, and thus a better candidate for default behavior \, recall
+that the external is called "burrow~" which is what it does.;
+#N canvas 380 158 454 304 system 0;
+#X obj 201 186 outlet;
+#X msg 93 128 overlap \$1;
+#X msg 84 96 2;
+#X msg 118 96 4;
+#X obj 298 44 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X msg 298 70 mute \$1;
+#X msg 302 132 fftinfo;
+#X msg 145 47 2;
+#X msg 179 47 4;
+#X msg 154 79 winfac \$1;
+#X msg 109 46 1;
+#X text 25 235 Try different combos of window factor and overlap. Lower
+overlap requires less CPU.;
+#X connect 1 0 0 0;
+#X connect 2 0 1 0;
+#X connect 3 0 1 0;
+#X connect 4 0 5 0;
+#X connect 5 0 0 0;
+#X connect 6 0 0 0;
+#X connect 7 0 9 0;
+#X connect 8 0 9 0;
+#X connect 9 0 0 0;
+#X connect 10 0 9 0;
+#X restore 182 305 pd system;
+#X connect 1 0 0 0;
+#X connect 2 0 1 0;
+#X connect 4 0 0 0;
+#X restore 193 197 pd messages;
+#X obj 153 348 hsl 128 15 0.0001 0.01 0 0 burrow-threshold empty threshold
+-2 -6 0 8 -182539 -1 -1 3720 1;
+#X obj 154 381 hsl 128 15 0.001 1 0 0 burrow-multiplier empty multiplier
+-2 -6 0 8 -182539 -1 -1 114 1;
+#X floatatom 150 103 5 0 0 0 - bp-center-freq -;
+#X obj 154 412 hsl 128 15 100 1500 0 0 bp-center-freq empty center-freq
+-2 -6 0 8 -182539 -1 -1 8164 1;
+#X floatatom 205 103 5 0 0 0 - bp-resonance -;
+#X obj 153 442 hsl 128 15 10 100 0 0 bp-resonance empty resonance -2
+-6 0 8 -182539 -1 -1 12700 1;
+#X text 12 476 The sound in the leftmost inlet gets filtered by the
+spectrum of the sound in the next inlet \, except that by default this
+spectrum is cut out from (or burrows into) the source sound. We use
+noise sources here to highlight the effect but it is recommended to
+use much more interesting sounds as one or both of the inputs. In this
+example \, with bandpassed noise as the filter sound \, the result
+is to create a notch in the source noise \, similar but inverse to
+the shape of the bandpass peak band.;
+#N canvas 0 22 462 312 init 0;
+#X obj 92 140 unpack f f f f f;
+#X obj 92 95 loadbang;
+#X obj 92 195 outlet;
+#X obj 110 234 outlet;
+#X obj 131 276 outlet;
+#X obj 165 256 outlet;
+#X obj 213 246 outlet;
+#X obj 197 71 inlet;
+#X msg 92 117 0.05 0.003 0.01 100 1000;
+#X connect 0 0 2 0;
+#X connect 0 1 3 0;
+#X connect 0 2 4 0;
+#X connect 0 3 5 0;
+#X connect 0 4 6 0;
+#X connect 1 0 8 0;
+#X connect 7 0 8 0;
+#X connect 8 0 0 0;
+#X restore 94 381 pd init;
+#X obj 94 364 bng 15 250 50 0 empty empty empty 0 -6 0 8 -262144 -1
+-1;
+#X connect 0 0 6 0;
+#X connect 1 0 0 0;
+#X connect 2 0 3 0;
+#X connect 3 0 0 1;
+#X connect 6 0 7 0;
+#X connect 6 0 7 1;
+#X connect 9 0 8 0;
+#X connect 10 0 6 1;
+#X connect 12 0 0 2;
+#X connect 13 0 0 3;
+#X connect 14 0 0 4;
+#X connect 17 0 3 1;
+#X connect 19 0 3 2;
+#X connect 22 0 11 0;
+#X connect 22 1 15 0;
+#X connect 22 2 16 0;
+#X connect 22 3 20 0;
+#X connect 22 4 18 0;
+#X connect 23 0 22 0;

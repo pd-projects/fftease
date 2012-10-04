@@ -183,7 +183,7 @@ void vacancy_mute(t_vacancy *x, t_floatarg toggle)
 
 void vacancy_overlap(t_vacancy *x, t_floatarg o)
 {
-  if(!power_of_two(o)){
+  if(!fftease_power_of_two(o)){
     error("%f is not a power of two",o);
     return;
   }
@@ -193,7 +193,7 @@ void vacancy_overlap(t_vacancy *x, t_floatarg o)
 
 void vacancy_winfac(t_vacancy *x, t_floatarg f)
 {
-  if(!power_of_two(f)){
+  if(!fftease_power_of_two(f)){
     error("%f is not a power of two",f);
     return;
   }
@@ -223,10 +223,10 @@ void *vacancy_new(t_symbol *s, int argc, t_atom *argv)
   x->overlap = atom_getfloatarg(0,argc,argv);
   x->winfac = atom_getfloatarg(1,argc,argv);
 
-  if(!power_of_two(x->overlap)){
+  if(!fftease_power_of_two(x->overlap)){
     x->overlap = 4;
   }
-  if(!power_of_two(x->winfac)){
+  if(!fftease_power_of_two(x->winfac)){
     x->winfac = 1;
   }
   		

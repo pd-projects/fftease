@@ -1,0 +1,193 @@
+#N canvas 609 64 625 468 10;
+#N canvas 0 22 478 328 bthresher-block 0;
+#X obj 177 189 block~ 256;
+#X obj 188 161 outlet~;
+#X obj 344 173 outlet;
+#X obj 188 40 inlet~;
+#X obj 266 65 inlet;
+#X obj 344 69 inlet;
+#X obj 391 101 inlet;
+#X obj 188 117 bthresher~ 0.1 0.97 4 1;
+#X connect 3 0 7 0;
+#X connect 4 0 7 1;
+#X connect 5 0 7 2;
+#X connect 6 0 7 0;
+#X connect 7 0 1 0;
+#X connect 7 1 2 0;
+#X restore 154 133 pd bthresher-block;
+#X obj 154 206 dac~;
+#X obj 154 34 noise~;
+#N canvas 613 44 522 372 messages 0;
+#X obj 32 248 outlet;
+#N canvas 314 293 617 400 individual-bin-control 0;
+#X obj 23 363 outlet;
+#X obj 220 97 pack f f f;
+#X floatatom 220 48 5 0 0 1 bin_number - -;
+#X floatatom 252 62 5 0 0 1 damping_factor - -;
+#X floatatom 285 78 5 0 0 1 threshold - -;
+#X text 23 29 format:;
+#X msg 153 241 0 0.968693 0.124173 1 0.968693 0.124173 2 0.968693 0.124173
+3 0.968693 0.124173 4 0.968693 0.124173 5 0.93 0.01 6 0.93 0.01 7 0.93
+0.01 8 0.93 0.01 9 0.93 0.01 10 0.93 0.01 11 0.93 0.01 12 0.93 0.1
+13 0.93 0.1 14 0.93 0.1 15 0.93 0.1 16 0.93 0.1 17 0.968693 0.124173
+18 0.968693 0.124173 19 0.968693 0.124173 20 0.968693 0.124173;
+#X msg 23 56 bin 5 0.93 0.01;
+#X text 23 41 bin # \, damping \, threshold;
+#X msg 220 139 bin \$1 \$2 \$3;
+#X text 153 223 or send raw data controlling many bins from a list
+;
+#X text 23 17 affect a single bin;
+#X text 219 31 construct bin message from components;
+#X connect 1 0 9 0;
+#X connect 2 0 1 0;
+#X connect 3 0 1 1;
+#X connect 4 0 1 2;
+#X connect 6 0 0 0;
+#X connect 7 0 0 0;
+#X connect 9 0 0 0;
+#X restore 32 20 pd individual-bin-control;
+#N canvas 0 22 498 348 global-bin-control 0;
+#X msg 253 203 alldamp \$1;
+#X msg 221 105 allthresh \$1;
+#X floatatom 221 73 5 0 0 0 - allthresh -;
+#X floatatom 253 181 5 0 0 0 - alldamp -;
+#X obj 221 238 outlet;
+#X obj 62 90 vsl 15 128 0 0.2 0 0 allthresh allthresh-init allthresh
+0 -8 0 8 -117632 -1 -1 6985 1;
+#X obj 117 90 vsl 15 128 0 1.1 0 0 alldamp alldamp-init alldamp 0 -8
+0 8 -117632 -1 -1 11084 1;
+#X connect 0 0 4 0;
+#X connect 1 0 4 0;
+#X connect 2 0 1 0;
+#X connect 3 0 0 0;
+#X restore 69 113 pd global-bin-control;
+#N canvas 0 22 494 344 random-bin-control 0;
+#X obj 8 105 outlet;
+#X text 4 33 format: min max;
+#X msg 8 50 rthreshold 0.05 0.7;
+#X msg 149 49 rdamper 0.8 0.999;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X restore 60 78 pd random-bin-control;
+#X text 222 21 <- start here;
+#N canvas 444 60 502 352 system 0;
+#X obj 26 268 outlet;
+#X text 122 87 arg must be power of 2;
+#X obj 26 19 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
+;
+#X msg 26 43 mute \$1;
+#X msg 124 103 overlap 4;
+#X msg 124 122 overlap 2;
+#X text 193 124 <- cuts CPU demand in half;
+#X text 197 105 <- default;
+#X msg 134 252 fftinfo;
+#X msg 140 185 winfac 1;
+#X text 136 166 relative size of input window to FFT;
+#X msg 210 186 winfac 2;
+#X connect 2 0 3 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 0;
+#X connect 5 0 0 0;
+#X connect 8 0 0 0;
+#X connect 9 0 0 0;
+#X connect 11 0 0 0;
+#X restore 83 158 pd system;
+#X msg 197 189 dump;
+#X text 195 172 with a list message;
+#X text 195 145 output current state;
+#X text 196 159 which can then be reloaded;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 5 0 0 0;
+#X connect 6 0 0 0;
+#X restore 275 97 pd messages;
+#X msg 79 242 \; pd dsp \$1;
+#X obj 79 221 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 1 1
+;
+#X obj 154 163 *~ 0.2;
+#X floatatom 194 70 5 0 0 0 - scale-thresh -;
+#X floatatom 234 95 5 0 0 0 - scale-damping -;
+#X obj 191 268 hsl 128 15 0 2 0 0 scale-thresh slider-init scale-thresh
+-2 -6 0 8 -258369 -1 -1 6350 1;
+#X obj 191 302 hsl 128 15 0 2 0 0 scale-damping slider-init scale-damping
+-2 -6 0 8 -258369 -1 -1 6350 1;
+#N canvas 137 230 511 492 capture 0;
+#X obj 8 12 inlet;
+#X text 20 173 clear;
+#X msg 8 237 0 0.960032 0.11 1 0.960032 0.11 2 0.960032 0.11 3 0.960032
+0.11 4 0.960032 0.11 5 0.960032 0.11 6 0.960032 0.11 7 0.960032 0.11
+8 0.960032 0.11 9 0.960032 0.11 10 0.960032 0.11 11 0.960032 0.11 12
+0.960032 0.11 13 0.960032 0.11 14 0.960032 0.11 15 0.960032 0.11 16
+0.960032 0.11 17 0.960032 0.11 18 0.960032 0.11 19 0.960032 0.11 0
+0.838661 0.383391 1 0.85394 0.349312 2 0.963181 0.277742 3 0.863287
+0.111771 4 0.871333 0.331876 5 0.940383 0.510999 6 0.94973 0.125378
+7 0.992569 0.100742 8 0.80563 0.290001 9 0.943857 0.0718399 10 0.971641
+0.17489 11 0.928632 0.356374 12 0.871212 0.144183 13 0.933891 0.516592
+14 0.918071 0.480113 15 0.851894 0.330705 16 0.97568 0.339909 17 0.98587
+0.380415 18 0.859807 0.39325 19 0.839784 0.422369 0 0.838661 0.383391
+1 0.85394 0.349312 2 0.963181 0.277742 3 0.863287 0.111771 4 0.871333
+0.331876 5 0.940383 0.510999 6 0.94973 0.125378 7 0.992569 0.100742
+8 0.80563 0.290001 9 0.943857 0.0718399 10 0.971641 0.17489 11 0.928632
+0.356374 12 0.871212 0.144183 13 0.933891 0.516592 14 0.918071 0.480113
+15 0.851894 0.330705 16 0.97568 0.339909 17 0.98587 0.380415 18 0.859807
+0.39325 19 0.839784 0.422369;
+#X msg 23 191 set;
+#X text 82 15 capture (some) list output from 'dump' message;
+#X msg 8 59 add2 \$1 \$2 \$3 \$4 \$5 \$6 \$7 \$8 \$9 \$10 \$11 \$12
+\$13 \$14 \$15 \$16 \$17 \$18 \$19 \$20 \$21 \$22 \$23 \$24 \$25 \$26
+\$27 \$28 \$29 \$30 \$31 \$32 \$33 \$34 \$35 \$36 \$37 \$38 \$39 \$40
+\$41 \$42 \$43 \$44 \$45 \$46 \$47 \$48 \$49 \$50 \$51 \$52 \$53 \$54
+\$55 \$56 \$57 \$58 \$59 \$60;
+#X text 86 118 The "dump" message outputs the current state of bthresher~
+as a series of triplets [bin# \, damp factor \, threshold]. This data
+can be captured as a list and reloaded to itself or any other bthresher~
+unit. In this example we only show the first twenty triplets. Since
+there are potentially as many as N/2 triplets where N is the FFT size
+\, you would need to modify this subpatch to capture all the information
+of the current state of bthresher~. (A version of Pd with the "prepend"
+object would make your life easier here.);
+#X connect 0 0 5 0;
+#X connect 3 0 2 0;
+#X connect 5 0 2 0;
+#X restore 275 159 pd capture;
+#N canvas 0 22 470 320 initialize 0;
+#X obj 38 150 s slider-init;
+#X msg 38 85 1;
+#X obj 38 51 loadbang;
+#X obj 142 150 s allthresh-init;
+#X obj 265 150 s alldamp-init;
+#X msg 265 83 0.96;
+#X msg 142 83 0.11;
+#X obj 142 41 inlet;
+#X connect 1 0 0 0;
+#X connect 2 0 1 0;
+#X connect 2 0 6 0;
+#X connect 2 0 5 0;
+#X connect 5 0 4 0;
+#X connect 6 0 3 0;
+#X connect 7 0 1 0;
+#X connect 7 0 6 0;
+#X connect 7 0 5 0;
+#X restore 399 270 pd initialize;
+#X text 364 97 <- click me to learn more;
+#X obj 399 245 loadbang;
+#X text 50 336 bthresher~ extends the thresher~ model to allow independent
+control over the parameters of each individual bin. You can also randomly
+set damping and threshold values \, and can dump the current values
+(to possibly send as input to another bthresher~ unit). It is recommended
+that you familiarize yourself with thresher~ before exploring the more
+complicated bthresher~.;
+#X text 182 52 threshold scale factor;
+#X text 237 80 damping scale factor;
+#X text 351 160 <- state captured here;
+#X connect 0 0 6 0;
+#X connect 0 1 11 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 3;
+#X connect 5 0 4 0;
+#X connect 6 0 1 0;
+#X connect 6 0 1 1;
+#X connect 7 0 0 1;
+#X connect 8 0 0 2;
+#X connect 14 0 12 0;

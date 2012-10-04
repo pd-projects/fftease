@@ -344,7 +344,7 @@ void pvgrain_init(t_pvgrain *x, short initialized)
 
 void pvgrain_overlap(t_pvgrain *x, t_floatarg o)
 {
-  if(!power_of_two((int)o)){
+  if(!fftease_power_of_two((int)o)){
     error("%f is not a power of two",o);
     return;
   }
@@ -354,7 +354,7 @@ void pvgrain_overlap(t_pvgrain *x, t_floatarg o)
 
 void pvgrain_winfac(t_pvgrain *x, t_floatarg f)
 {
-  if(!power_of_two((int)f)){
+  if(!fftease_power_of_two((int)f)){
     error("%f is not a power of two",f);
     return;
   }

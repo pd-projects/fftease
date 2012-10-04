@@ -127,7 +127,7 @@ void drown_tilde_setup(void)
 void drown_overlap(t_drown *x, t_floatarg f)
 {
 int i = (int) f;
-  if(!power_of_two(i)){
+  if(!fftease_power_of_two(i)){
     error("%f is not a power of two",f);
     return;
   }
@@ -139,7 +139,7 @@ void drown_winfac(t_drown *x, t_floatarg f)
 {
 int i = (int)f;
 
-  if(!power_of_two(i)){
+  if(!fftease_power_of_two(i)){
     error("%f is not a power of two",f);
     return;
   }
@@ -202,9 +202,9 @@ void *drown_new(t_symbol *s, int argc, t_atom *argv)
     x->threshold = .0001;
   if(x->drownmult <= 0)
     x->drownmult = 0.1;
-  if(!power_of_two(x->overlap))
+  if(!fftease_power_of_two(x->overlap))
     x->overlap = 4;
-  if(!power_of_two(x->winfac))
+  if(!fftease_power_of_two(x->winfac))
     x->winfac = 1;
   	
   x->vs = sys_getblksize();
