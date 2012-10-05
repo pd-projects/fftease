@@ -23,7 +23,7 @@ MANUAL = code-notes.rtf
 # list them here.  This can be anything from header files, test patches,
 # documentation, etc.  README.txt and LICENSE.txt are required and therefore
 # automatically included
-EXTRA_DIST = fftease.h MSPd.h PenroseOscil.h PenroseRand.h pvtuner.h
+EXTRA_DIST = fftease.h MSPd.h PenroseOscil.h PenroseRand.h pvtuner.h residency_buffer~.c
 
 # unit tests and related files here, in the 'unittests' subfolder
 UNITTESTS = 
