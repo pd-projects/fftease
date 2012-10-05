@@ -1,0 +1,5 @@
+#N canvas 629 262 450 300 10;
+#X obj 123 118 fftease-system;
+#X text 37 31 [fftease-system] is a support object for the FFTease
+library. It is used for sending standard control messages to configure
+various objects. Open the object itself for more information:;

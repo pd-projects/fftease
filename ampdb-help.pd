@@ -1,0 +1,13 @@
+#N canvas 111 157 450 300 10;
+#X obj 102 144 ampdb;
+#X floatatom 102 119 5 0 0 0 - - -;
+#X obj 105 94 hsl 128 15 -150 0 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X floatatom 102 178 10 0 0 0 - - -;
+#X text 46 49 convert negative decibels (dB) to amplitude between 0
+and 1;
+#X text 166 117 input range is roughly -150 to 0;
+#X text 179 178 output range is 0 to 1;
+#X connect 0 0 3 0;
+#X connect 1 0 0 0;
+#X connect 2 0 1 0;
