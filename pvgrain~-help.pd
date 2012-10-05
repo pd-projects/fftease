@@ -74,7 +74,7 @@
 #X coords 0 1 46382 -1 200 140 1;
 #X restore 215 4 graph;
 #X obj 17 242 soundfiler;
-#X msg 17 205 read -resize Piano.aif piano-sample;
+#X msg 17 205 read -resize examples/Piano.aif piano-sample;
 #X obj 17 169 loadbang;
 #N canvas 578 40 566 745 choir 0;
 #X obj 79 103 inlet;
