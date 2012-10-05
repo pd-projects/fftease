@@ -1,4 +1,4 @@
-#N canvas 688 343 449 413 10;
+#N canvas 189 203 449 413 10;
 #N canvas 0 22 502 352 tuneblock 0;
 #X obj 33 21 inlet~;
 #X obj 97 20 inlet;
@@ -19,7 +19,7 @@
 #X msg 81 239 \; pd dsp \$1;
 #X obj 81 216 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
 ;
-#N canvas 968 733 654 290 messages 0;
+#N canvas 154 403 400 321 messages 0;
 #X obj 21 216 outlet;
 #N canvas 0 22 536 459 built-in-scales 0;
 #X msg 11 30 major_seventh_chord;
@@ -54,17 +54,34 @@
 #X connect 14 0 6 0;
 #X connect 15 0 6 0;
 #X restore 21 27 pd built-in-scales;
-#N canvas 519 357 742 434 more-scales 0;
+#N canvas 520 357 631 434 more-scales 0;
 #X msg 77 94 27.5 41.25 55 82.5 110 165 220 330 440 660 880 1320 1760
 2640 3520 5280 7040 10560 14080 21120;
 #X text 80 78 define scale as ordered list of numbers;
-#X obj 77 223 outlet;
-#X msg 165 148 import_scale /Applications/Pd/Pd-0.38-3.app/Contents/Resources/extra/blue3.scale
-;
+#X obj 77 371 outlet;
+#X msg 165 148 import_scale examples/blue3.scale;
 #X text 161 130 you can even load a file \, but be sure to use a full
 pathname;
+#X msg 165 170 import_scale examples/13et.scale;
+#X msg 165 190 import_scale examples/24et.scale;
+#X msg 165 210 import_scale examples/4th.scale;
+#X msg 165 230 import_scale examples/blue3.scale;
+#X msg 165 250 import_scale examples/m3chord.scale;
+#X msg 165 270 import_scale examples/m3M3.scale;
+#X msg 165 290 import_scale examples/octfifth.scale;
+#X msg 165 310 import_scale examples/test.scale;
+#X text 217 337 There are also included perl scripts for generating
+the scale files: examples/scale*.pl;
 #X connect 0 0 2 0;
 #X connect 3 0 2 0;
+#X connect 5 0 2 0;
+#X connect 6 0 2 0;
+#X connect 7 0 2 0;
+#X connect 8 0 2 0;
+#X connect 9 0 2 0;
+#X connect 10 0 2 0;
+#X connect 11 0 2 0;
+#X connect 12 0 2 0;
 #X restore 48 48 pd more-scales;
 #X obj 130 154 fftease-system;
 #N canvas 968 224 694 704 frequency-management 0;
@@ -74,7 +91,7 @@ pathname;
 #X floatatom 37 93 5 0 0 0 - - -;
 #X floatatom 187 98 5 0 0 0 - - -;
 #X obj 160 31 hsl 200 15 500 9000 0 0 empty empty empty -2 -6 0 8 -126035
--1 -1 9500 1;
+-1 -1 0 1;
 #X obj 157 57 t f f;
 #X msg 258 181 frequency_range 500 2000;
 #X msg 258 207 frequency_range 0 6000;
@@ -89,7 +106,7 @@ pathname;
 #X obj 155 381 loadbang;
 #X text 190 409 set base frequency for scale;
 #X obj 40 12 hsl 200 15 500 9000 0 0 empty empty empty -2 -6 0 8 -126035
--1 -1 9700 1;
+-1 -1 0 1;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
 #X connect 3 0 1 0;
@@ -116,7 +133,7 @@ pathname;
 #X obj 167 26 loadbang;
 #X msg 50 42 1;
 #X obj 71 163 hsl 128 15 0 1 0 0 empty empty empty -2 -6 0 8 -123336
--1 -1 600 1;
+-1 -1 0 1;
 #X floatatom 68 181 5 0 0 0 - - -;
 #X floatatom 76 91 5 0 0 1 synth-threshold - -;
 #X msg 167 47 0.001;

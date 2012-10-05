@@ -14,7 +14,7 @@ SOURCES = bthresher~.c burrow~.c cavoc27~.c cavoc~.c centerring~.c codepend~.c c
 PDOBJECTS = ampdb.pd fftease-system.pd
 
 # example patches and related files, in the 'examples' subfolder
-EXAMPLES = blue3.scale Piano.aif
+EXAMPLES = 13et.scale 24et.scale 4th.scale blue3.scale m3chord.scale m3M3.scale octfifth.scale Piano.aif scale1.pl scale2.pl scale3.pl scale4.pl scale5.pl scale6.pl scale7.pl test.scale
 
 # manuals and related files, in the 'manual' subfolder
 MANUAL = code-notes.rtf
